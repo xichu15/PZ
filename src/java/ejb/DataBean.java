@@ -23,6 +23,7 @@ public class DataBean {
     private EntityManager em;
     
     /**********Dodawanie obiektow**********/
+    
     public void dodajUzytkownika(String login, String haslo, String email) {
         try{
             Uzytkownik dodawany = new Uzytkownik(Integer.valueOf(1), login, haslo, email);
@@ -109,6 +110,18 @@ public class DataBean {
         catch(Exception e){
             throw new EJBException(e.getMessage());
         } 
+    }
+
+    /**********Usuwanie obiektow**********/
+    
+    public void usunUzytkownika(Uzytkownik usuwany) {
+        try{
+            logger.info("Usuwanie uzytkownika: " + usuwany.getLogin());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
     }
 
 }
