@@ -69,6 +69,13 @@ public class Archiwumpomiar implements Serializable {
         this.idArchiwumPomiar = idArchiwumPomiar;
     }
 
+    public Archiwumpomiar(Integer idArchiwumPomiar, Double wartosc, Date dataPomiaru, Date czasPomiaru) {
+        this.idArchiwumPomiar = idArchiwumPomiar;
+        this.wartosc = wartosc;
+        this.dataPomiaru = dataPomiaru;
+        this.czasPomiaru = czasPomiaru;
+    }        
+    
     public Integer getIdArchiwumPomiar() {
         return idArchiwumPomiar;
     }

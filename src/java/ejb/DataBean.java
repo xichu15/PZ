@@ -6,6 +6,8 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.Archiwumpomiar;
+import model.Czujnik;
 import model.Element;
 import model.Gatunekchmur;
 import model.Pomiar;
@@ -86,4 +88,27 @@ public class DataBean {
             throw new EJBException(e.getMessage());
         } 
     }
+
+    public void dodajArchiwum(double wartosc, Date data, Date czas) {
+        try{
+            Archiwumpomiar dodawany = new Archiwumpomiar(Integer.valueOf(1), wartosc, data, czas);
+            logger.info("Dodaje pomiar: " + data);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
+    
+    public void dodajCzujnik(String nazwa) {
+        try{
+            Czujnik dodawany = new Czujnik(Integer.valueOf(1), nazwa);
+            logger.info("Dodaje czujnik: " + nazwa);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
+
 }
