@@ -57,6 +57,13 @@ public class Uzytkownik implements Serializable {
         this.idUzytkownik = idUzytkownik;
     }
 
+    public Uzytkownik(Integer valueOf, String login, String haslo, String email) {
+        this.idUzytkownik = valueOf;
+        this.login = login;
+        this.haslo = haslo;
+        this.email = email;
+    }
+
     public Integer getIdUzytkownik() {
         return idUzytkownik;
     }
