@@ -1,11 +1,14 @@
 package ejb;
 
+import java.util.Date;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateful;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import model.Element;
 import model.Gatunekchmur;
+import model.Pomiar;
 import model.Rodzajchmur;
 import model.Stacja;
 import model.Uzytkownik;
@@ -55,6 +58,28 @@ public class DataBean {
         try{
             Gatunekchmur dodawany = new Gatunekchmur(Integer.valueOf(1), gatunekChmur);
             logger.info("Dodaje gatunek chmur: " + gatunekChmur);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
+
+    public void dodajElement(String nazwa, String jednostka) {
+        try{
+            Element dodawany = new Element(Integer.valueOf(1), nazwa, jednostka);
+            logger.info("Dodaje element: " + nazwa);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
+
+    public void dodajPomiar(double wartosc, Date data, Date czas) {
+        try{
+            Pomiar dodawany = new Pomiar(Integer.valueOf(1), wartosc, data, czas);
+            logger.info("Dodaje pomiar: " + data);
             em.persist(dodawany);
         }
         catch(Exception e){

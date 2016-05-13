@@ -69,6 +69,13 @@ public class Pomiar implements Serializable {
         this.idPomiar = idPomiar;
     }
 
+    public Pomiar(Integer idPomiar, Double wartosc, Date dataPomiaru, Date czasPomiaru) {
+        this.idPomiar = idPomiar;
+        this.wartosc = wartosc;
+        this.dataPomiaru = dataPomiaru;
+        this.czasPomiaru = czasPomiaru;
+    }    
+    
     public Integer getIdPomiar() {
         return idPomiar;
     }
