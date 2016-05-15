@@ -124,4 +124,74 @@ public class DataBean {
         }
     }
 
+    public void usunStacje(Stacja usuwany) {
+        try{
+            logger.info("Usuwanie stacji: " + usuwany.getNazwa());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunPomiar(Pomiar usuwany) {
+        try{
+            logger.info("Usuwanie pomiaru: " + usuwany.getDataPomiaru() + " " + usuwany.getCzasPomiaru());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunElement(Element usuwany) {
+        try{
+            logger.info("Usuwanie elementu: " + usuwany.getNazwa());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunCzujnik(Czujnik usuwany) {
+        try{
+            logger.info("Usuwanie czujnika: " + usuwany.getNazwa());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunRodzajChmur(Rodzajchmur usuwany) {
+        try{
+            logger.info("Usuwanie rodzaju chmur: " + usuwany.getNazwa());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunGatunekChmur(Gatunekchmur usuwany) {
+        try{
+            logger.info("Usuwanie gatunku chmur: " + usuwany.getNazwa());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void usunArchiwum(Archiwumpomiar usuwany) {
+        try{
+            logger.info("Usuwanie archiwum pomiaru: " + usuwany.getDataPomiaru() + " " + usuwany.getCzasPomiaru());
+            em.remove(em.merge(usuwany));
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
 }
