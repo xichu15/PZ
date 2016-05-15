@@ -194,4 +194,26 @@ public class DataBean {
         }
     }
 
+    /********** Edytowanie obiektow **********/
+    
+    public void edytujUzytkownika(Integer idUzytkownik, String nowyLogin, String noweHaslo, String nowyEmail) {
+        try{
+            logger.info("Szukanie uzytkonika id: " + idUzytkownik);
+            Uzytkownik uzytkownik = em.find(Uzytkownik.class, idUzytkownik);
+            logger.info("Edycja uzytkonika: " + uzytkownik.getLogin());
+            if(!nowyLogin.isEmpty()){
+                uzytkownik.setLogin(nowyLogin);
+            }
+            if(!noweHaslo.isEmpty()){
+                uzytkownik.setHaslo(noweHaslo);
+            }
+            if(!nowyEmail.isEmpty()){
+                uzytkownik.setEmail(nowyEmail);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
 }
