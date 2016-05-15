@@ -5,10 +5,10 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.view.ViewScoped;
 
 @Named(value = "edytujUzytkownika")
-@RequestScoped
+@ViewScoped
 public class EdytujUzytkownika implements Serializable{
     private static Logger logger = Logger.getLogger(".controler.edytujUzytkownika");
     @EJB

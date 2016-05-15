@@ -198,9 +198,9 @@ public class DataBean {
     
     public void edytujUzytkownika(Integer idUzytkownik, String nowyLogin, String noweHaslo, String nowyEmail) {
         try{
-            logger.info("Szukanie uzytkonika id: " + idUzytkownik);
+            logger.info("Szukanie uzytkownika id: " + idUzytkownik);
             Uzytkownik uzytkownik = em.find(Uzytkownik.class, idUzytkownik);
-            logger.info("Edycja uzytkonika: " + uzytkownik.getLogin());
+            logger.info("Edycja uzytkownika: " + uzytkownik.getLogin());
             if(!nowyLogin.isEmpty()){
                 uzytkownik.setLogin(nowyLogin);
             }
@@ -216,4 +216,129 @@ public class DataBean {
         }
     }
 
+    public void edytujStacje(Integer idStacja, String nowaNazwa, String nowaStrefaCzasowa, int nowePrzesuniecie, double nowaDlugoscGeograficzna, double nowaSzerokoscGeograficzna, int nowaWysokoscNpm) {
+        try{
+            logger.info("Szukanie stacji id: " + idStacja);
+            Stacja stacja = em.find(Stacja.class, idStacja);
+            logger.info("Edycja stacji: " + stacja.getNazwa());
+            if(!nowaNazwa.isEmpty()){
+                stacja.setNazwa(nowaNazwa);
+            }
+            if(!nowaStrefaCzasowa.isEmpty()){
+                stacja.setStrefaCzasowa(nowaStrefaCzasowa);
+                stacja.setPrzesuniecie(nowePrzesuniecie);
+            }
+            if(nowaDlugoscGeograficzna != 0){
+                stacja.setDlugoscGeograficzna(nowaDlugoscGeograficzna);
+            }    
+            if(nowaSzerokoscGeograficzna != 0){
+                stacja.setSzerokoscGeograficzna(nowaSzerokoscGeograficzna);
+            }   
+            if(nowaWysokoscNpm != 0){
+                stacja.setWysokoscNpm(nowaWysokoscNpm);
+            }          
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void edytujPomiar(Integer idPomiar, double nowaWartosc, Date nowaDataPomiaru, Date nowyCzasPomiaru) {
+        try{
+            logger.info("Szukanie pomiaru id: " + idPomiar);
+            Pomiar pomiar = em.find(Pomiar.class, idPomiar);
+            logger.info("Edycja pomiaru: " + pomiar.getDataPomiaru() + " " + pomiar.getCzasPomiaru());
+            if(nowaWartosc != 0){
+                pomiar.setWartosc(nowaWartosc);
+            }
+            if(!nowaDataPomiaru.toString().isEmpty()){
+                pomiar.setDataPomiaru(nowaDataPomiaru);
+            }
+            if(!nowyCzasPomiaru.toString().isEmpty()){
+                pomiar.setCzasPomiaru(nowyCzasPomiaru);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void edytujElement(Integer idElement, String nowaNazwa, String nowaJednostka) {
+           try{
+            logger.info("Szukanie elementu id: " + idElement);
+            Element element = em.find(Element.class, idElement);
+            logger.info("Edycja elementu: " + element.getNazwa());
+            if(nowaNazwa.isEmpty()){
+                element.setNazwa(nowaNazwa);
+            }
+            if(!nowaJednostka.isEmpty()){
+                element.setJednostka(nowaJednostka);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void edytujCzujnik(Integer idCzujnik, String nowaNazwa) {
+        try{
+            logger.info("Szukanie czujnika id: " + idCzujnik);
+            Czujnik czujnik = em.find(Czujnik.class, idCzujnik);
+            logger.info("Edycja czujnika: " + czujnik.getNazwa());
+            if(nowaNazwa.isEmpty()){
+                czujnik.setNazwa(nowaNazwa);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void edytujRodzajChmury(Integer idRodzajChmur, String nowyRodzajChmur) {
+        try{
+            logger.info("Szukanie rodzaju chmur id: " + idRodzajChmur);
+            Rodzajchmur rodzajChmur = em.find(Rodzajchmur.class, idRodzajChmur);
+            logger.info("Edycja rodzaju chmur: " + rodzajChmur.getNazwa());
+            if(nowyRodzajChmur.isEmpty()){
+                rodzajChmur.setNazwa(nowyRodzajChmur);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+    public void edytujGatunekChmury(Integer idGatunekChmur, String nowyGatunekChmur) {
+        try{
+            logger.info("Szukanie gatunku chmur id: " + idGatunekChmur);
+            Gatunekchmur gatunekChmur = em.find(Gatunekchmur.class, idGatunekChmur);
+            logger.info("Edycja gatunku chmur: " + gatunekChmur.getNazwa());
+            if(nowyGatunekChmur.isEmpty()){
+                gatunekChmur.setNazwa(nowyGatunekChmur);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }     
+    }
+
+    public void edytujArchiwum(Integer idPomiar, double nowaWartosc, Date nowaDataArchiwum, Date nowyCzasArchiwum) {
+        try{
+            logger.info("Szukanie archiwum id: " + idPomiar);
+            Archiwumpomiar archiwum = em.find(Archiwumpomiar.class, idPomiar);
+            logger.info("Edycja archiwum: " + archiwum.getDataPomiaru() + " " + archiwum.getCzasPomiaru());
+            if(nowaWartosc != 0){
+                archiwum.setWartosc(nowaWartosc);
+            }
+            if(!nowaDataArchiwum.toString().isEmpty()){
+                archiwum.setDataPomiaru(nowaDataArchiwum);
+            }
+            if(!nowyCzasArchiwum.toString().isEmpty()){
+                archiwum.setCzasPomiaru(nowyCzasArchiwum);
+            }
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+    }
 }
