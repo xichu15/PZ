@@ -1,6 +1,7 @@
 package ejb;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateful;
@@ -341,4 +342,101 @@ public class DataBean {
             throw new EJBException(e.getMessage());
         }
     }
+
+    public List<Uzytkownik> pobierzUzytkownikow() {
+        List<Uzytkownik> uzytkownicy = null;
+            try{
+                logger.info("Pobieram liste uzytkownikow");
+                uzytkownicy = (List<Uzytkownik>) em.createNamedQuery("Uzytkownik.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return uzytkownicy;
+    }
+
+    public List<Pomiar> pobierzPomiary() {
+        List<Pomiar> pomiary = null;
+            try{
+                logger.info("Pobieram liste pomiarow");
+                pomiary = (List<Pomiar>) em.createNamedQuery("Pomiar.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return pomiary;
+    }
+
+    public List<Stacja> pobierzStacje() {
+        List<Stacja> stacje = null;
+            try{
+                logger.info("Pobieram liste stacji");
+                stacje = (List<Stacja>) em.createNamedQuery("Stacja.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return stacje;
+    }
+
+    public List<Element> pobierzElementy() {
+        List<Element> elementy = null;
+            try{
+                logger.info("Pobieram liste elementow");
+                elementy = (List<Element>) em.createNamedQuery("Element.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return elementy;
+    }
+
+    public List<Czujnik> pobierzCzujniki() {
+        List<Czujnik> czujniki = null;
+            try{
+                logger.info("Pobieram liste czujnikow");
+                czujniki = (List<Czujnik>) em.createNamedQuery("Czujnik.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return czujniki;
+    }
+
+    public List<Rodzajchmur> pobierzRodzajeChmur() {
+        List<Rodzajchmur> rodzajeChmur = null;
+            try{
+                logger.info("Pobieram liste rodzajow chmur");
+                rodzajeChmur = (List<Rodzajchmur>) em.createNamedQuery("Rodzajchmur.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return rodzajeChmur;
+    }
+
+    public List<Gatunekchmur> pobierzGatunkiChmur() {
+        List<Gatunekchmur> gatunkiChmur = null;
+            try{
+                logger.info("Pobieram liste gatunkow chmur");
+                gatunkiChmur = (List<Gatunekchmur>) em.createNamedQuery("Gatunekchmur.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return gatunkiChmur;
+    }
+
+    public List<Archiwumpomiar> pobierzArchiwa() {
+        List<Archiwumpomiar> archiwa = null;
+            try{
+                logger.info("Pobieram liste archiwum");
+                archiwa = (List<Archiwumpomiar>) em.createNamedQuery("Archiwumpomiar.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return archiwa;
+    }
+
 }
