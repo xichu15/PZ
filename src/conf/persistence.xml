@@ -3,6 +3,9 @@
   <persistence-unit name="PZPU" transaction-type="JTA">
     <jta-data-source>java:app/ProjektZespolowy</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+<properties>
+  <property name="javax.persistence.jdbc.user" value="app"/>
+  <property name="javax.persistence.jdbc.password" value="()"/>
+ </properties>
   </persistence-unit>
 </persistence>

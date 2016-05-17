@@ -1,5 +1,6 @@
 package ejb;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -15,6 +16,8 @@ import model.Pomiar;
 import model.Rodzajchmur;
 import model.Stacja;
 import model.Uzytkownik;
+import org.primefaces.model.map.LatLng;
+import org.primefaces.model.map.Marker;
 
 @Stateful
 public class DataBean {
@@ -437,6 +440,26 @@ public class DataBean {
                 throw new EJBException(e.getMessage());
             }
         return archiwa;
+    }
+
+    public List<Marker> pobierzLokacje() {
+        List<Stacja> stacje = null;
+        ArrayList<Marker> znaczniki = new ArrayList<>();
+            try{
+                logger.info("Pobieram liste stacji");
+                stacje = (List<Stacja>) em.createNamedQuery("Stacja.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+            if(stacje != null){
+                for(Stacja lokacja : stacje){
+                    System.out.println(lokacja.getNazwa() + " " + lokacja.getDlugoscGeograficzna() + " " + lokacja.getSzerokoscGeograficzna());
+                    LatLng wspolrzedne = new LatLng(lokacja.getDlugoscGeograficzna(), lokacja.getSzerokoscGeograficzna());
+                    znaczniki.add(new Marker(wspolrzedne, lokacja.getNazwa())); 
+                }
+            }
+        return znaczniki;        
     }
 
 }

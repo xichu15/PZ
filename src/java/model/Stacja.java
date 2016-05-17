@@ -170,7 +170,7 @@ public class Stacja implements Serializable {
 
     @Override
     public String toString() {
-        return "model.Stacja[ idStacja=" + idStacja + " ]";
+        return nazwa;
     }
     
 }
