@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -91,6 +92,17 @@ public class Pomiar implements Serializable {
         this.czasPomiaru = czasPomiaru;
     }
 
+    public Date getDataPlusCzas(){
+        Calendar data = Calendar.getInstance();
+        data.setTime(dataPomiaru);
+        Calendar godzina = Calendar.getInstance();
+        godzina.setTime(czasPomiaru);
+        
+        data.add(Calendar.HOUR, godzina.get(Calendar.HOUR));
+        data.add(Calendar.MINUTE, godzina.get(Calendar.MINUTE));
+        return data.getTime();
+    }    
+    
     public Double getWartosc() {
         return wartosc;
     }

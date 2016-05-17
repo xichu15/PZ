@@ -346,6 +346,8 @@ public class DataBean {
         }
     }
 
+    /********** Listy elementow **********/
+    
     public List<Uzytkownik> pobierzUzytkownikow() {
         List<Uzytkownik> uzytkownicy = null;
             try{
@@ -462,4 +464,5 @@ public class DataBean {
         return znaczniki;        
     }
 
+    /********** Szukanie po ID **********/
 }

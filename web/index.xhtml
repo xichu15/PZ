@@ -61,18 +61,34 @@
 
                 <p:layoutUnit position="center" >
                     <h1>Dane pomiarowe dla: Kraków</h1>
-                    <p:dataList >
+                    <p:dataTable id="pomiary" value="#{wypiszDane.pobierzPomiary()}" var="pomiar" >
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
+                                <h:outputLabel value="#{pomiar.dataPlusCzas} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
+                                <h:outputLabel value="#{pomiar.wartosc} "/>
+                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
+                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
+                            </div>
+                        </p:column>
                         <f:facet name="header">
-                            Dane dla ostatniej godziny:
+                            Dane z ostatnich godzin:
 
                         </f:facet>
                         
-                    </p:dataList>
+                    </p:dataTable>
                     <h1>Wykresy:</h1>
-                    <h2>Temperatura:</h2>
-                    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                    
-
+                    <h2>Temperatura:</h2>                   
                     <h2>Wilgotność powietrza:</h2>
                     <h2>Prędkość maksymalna wiatru:</h2>
                     <h2>Srednia prędkość wiatru:</h2>
