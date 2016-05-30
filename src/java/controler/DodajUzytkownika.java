@@ -29,7 +29,7 @@ public class DodajUzytkownika implements Serializable{
             e.printStackTrace();
         }
     }    
-
+    
     public String getLogin() {
         return login;
     }

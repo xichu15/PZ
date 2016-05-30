@@ -1,11 +1,13 @@
 package ejb;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
-import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import model.Archiwumpomiar;
@@ -19,7 +21,7 @@ import model.Uzytkownik;
 import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.Marker;
 
-@Stateful
+@Stateless
 public class DataBean {
     private static Logger logger = Logger.getLogger(".ejb.DataBean");
 
@@ -30,6 +32,7 @@ public class DataBean {
     
     public void dodajUzytkownika(String login, String haslo, String email) {
         try{
+            login = sha256(haslo);
             Uzytkownik dodawany = new Uzytkownik(Integer.valueOf(1), login, haslo, email);
             logger.info("Dodaje uzytkownika: " + login);
             em.persist(dodawany);
@@ -37,6 +40,17 @@ public class DataBean {
         catch(Exception e){
             throw new EJBException(e.getMessage());
         }
+    }
+    
+    static String sha256(String input) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
+        byte[] result = mDigest.digest(input.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
     }
 
     public void DodajStacje(String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm) {
