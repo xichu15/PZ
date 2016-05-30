@@ -385,6 +385,26 @@ public class DataBean {
             }
         return pomiary;
     }
+    
+    public List<Pomiar> pobierzPomiary(Integer idStacji) {
+        List<Pomiar> pomiary;
+        ArrayList<Pomiar> pomiaryStacji = new ArrayList<>();
+            try{
+                logger.info("Pobieram liste pomiarow");
+                pomiary = (List<Pomiar>) em.createNamedQuery("Pomiar.findAll").getResultList();
+                logger.info("Szukam stacji");
+                Stacja stacja = em.find(Stacja.class, idStacji);
+                for(Pomiar pomiar : pomiary){
+                    if(pomiar.getIdCzujnik().getIdStacja() == stacja){
+                        pomiaryStacji.add(pomiar);
+                    }
+                }
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        return pomiaryStacji;
+    }    
 
     public List<Stacja> pobierzStacje() {
         List<Stacja> stacje = null;

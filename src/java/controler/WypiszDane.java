@@ -28,7 +28,7 @@ import model.Uzytkownik;
 @Named(value = "wypiszDane")
 @ViewScoped
 public class WypiszDane implements Serializable{
-    private static Logger logger = Logger.getLogger(".control.ControlLists");
+    private static Logger logger = Logger.getLogger(".control.wypiszDane");
     
     @EJB
     private DataBean db;
