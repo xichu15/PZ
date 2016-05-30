@@ -3,6 +3,7 @@ package ejb;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -389,13 +390,17 @@ public class DataBean {
     public List<Pomiar> pobierzPomiary(Integer idStacji) {
         List<Pomiar> pomiary;
         ArrayList<Pomiar> pomiaryStacji = new ArrayList<>();
+        Calendar czasOd = Calendar.getInstance();
+        czasOd.add(Calendar.DATE, -1);
             try{
                 logger.info("Pobieram liste pomiarow");
                 pomiary = (List<Pomiar>) em.createNamedQuery("Pomiar.findAll").getResultList();
                 logger.info("Szukam stacji");
                 Stacja stacja = em.find(Stacja.class, idStacji);
                 for(Pomiar pomiar : pomiary){
-                    if(pomiar.getIdCzujnik().getIdStacja() == stacja){
+                    Calendar czasPomiaru = Calendar.getInstance();
+                    czasPomiaru.setTime(pomiar.getDataPlusCzas());
+                    if(pomiar.getIdCzujnik().getIdStacja() == stacja && czasPomiaru.after(czasOd)){
                         pomiaryStacji.add(pomiar);
                     }
                 }
