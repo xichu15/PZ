@@ -58,36 +58,31 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1 align="center">Zapraszamy do kontaktu</h1>
-                    <h:form>
-                        <Table align="center"> 
-                        
-                        <p:growl id="growl" life="2000" />
-                        <tr>
-                            <td>Numer telefonu:</td>
-                            <td>666-666-666<br/></td>
-                        </tr>
-                        <tr>
-                            <td>Siedziba:<br/></td>
-                            <td>
-                            Politechnika Krakowska im. Tadeusza Kościuszki<br/>
-                            ul. Warszawska 24<br/>
-                            Kraków<br/></td>
-                        
-                        </tr>
-                        <tr>
-                            <td> E-mail: </td>
-                            <td>informatykapk2013@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td align="center">
-                                <br/>
-                                <br/>
-                        <p:commandButton disabled="true" value="Dołącz do nas!" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
-                        </td>
-                        </tr>
-                        </Table>
+                    <h:form id="form">
+                        <p:dataGrid var="uzytkownik" value="#{wypiszDane.pobierzUzytkownikow()}" columns="1" 
+        rows="12" paginator="true" id="pomiary"
+        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+        rowsPerPageTemplate="6,12,16">
+ 
+        <f:facet name="header">
+            Wybierz użytkownika o edycji
+        </f:facet>
+ 
+                            <p:panel header="#{uzytkownik.idUzytkownik}" style="text-align:center">
+            <h:panelGrid columns="1" style="width:100%">
+ 
+                <h:outputText value="#{uzytkownik.login}" />
+                <h:outputText value="#{uzytkownik.email}" />
+                <h:outputText value="#{uzytkownik.haslo}" />
+                <h:commandButton value="Usun" action="#{usunUzytkownika.usunUzytkownika(uzytkownik)}"/>
+ 
+                <h:link value="Edytuj" outcome="Admin_edycja_uzytkownikow_konkret" >
+                    <f:param name="userid" id="userid" value="#{uzytkownik.idUzytkownik}"/>
+                </h:link>
+            </h:panelGrid>
+        </p:panel>
+ 
+    </p:dataGrid>
                     </h:form>  
                 </p:layoutUnit>
                             </p:layout>
@@ -96,5 +91,4 @@
 
     </f:view>
 </html>
-
 

@@ -62,34 +62,38 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1>Witamy na stronie</h1>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.
-
-                    <h3>Wybierz stację pomiarową:</h3>
-                    <br/>
-                    <h:form id="form">
-                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
-                            <p:outputLabel for="station" value="Wybór: " />
-                            <p:selectOneMenu id="station" value="Wybierz miasto" effect="fold" editable="true">
-                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
-                                <f:selectItems value="#{wypiszDane.pobierzStacje()}" />
-                            </p:selectOneMenu>
-                            <p:commandButton value="Wybierz" oncomplete="2-strona_główna" icon="ui-icon-check" />
-                        </h:panelGrid>
-                        
-                    </h:form>
-
-                    <center>
-                        <h:form>
-                            <p:growl id="growl" showDetail="true"  />
-
-                            <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
-                                <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
-                            </p:gmap>
-                        </h:form>
-                    </center>
+                    <h1 align="center">Edytuj wybrany pomiaru</h1>
+                    <h:form>
+                        <table align="center">
+                            <tr>
+                            <td>
+                            <p:outputLabel value="Wartosc :"/> </td>
+                            <td> <p:inputText value="#{edytujPomiar.nowaWartosc}"/></td>
+            </tr>
+           
+            <tr>
+                <td> <p:outputLabel value="Godziny : Minuty"/></td>
+                <td>     <p:inputText size="2" value="#{edytujPomiar.nowaGodzinaPomiaru}"/>
+                    <p:outputLabel value=" : "/>
+                    <p:inputText size="2" value="#{edytujPomiar.nowaMinutaPomiaru}"/> </td>
+                </tr>
+                
+                <tr>
+                    <td>
+                    <p:outputLabel value="Data:"/>
+                    </td>
+                    <td>
+                    <p:calendar value="#{edytujPomiar.nowaDataPomiaru}"/>
+            </td>
+                </tr>
+                
+                <tr>
+                    <td></td>
+                    <td><br/><br/><p:commandLink value="Edytuj" action="#{edytujPomiar.edytujPomiar()}"/></td>
+            </tr>
+                        </table>
                     
-
+                    </h:form>
                 </p:layoutUnit>
 
 
