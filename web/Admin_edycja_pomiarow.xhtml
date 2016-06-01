@@ -1,16 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>System zbierania danych klimatycznych</title>
+            </f:facet>
+            <script src="http://maps.google.com/maps/api/js?sensor=true|false"
+            type="text/javascript"></script> 
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+
+                    <center><h1>System zbierania danych klimatycznych</h1></center>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="40" closable="true" collapsible="true">
+                    <center>Krzysztof Łygas, Adrianna Lipińska, Mariusz Smoleń &copy; Wszelkie prawa zastrzeżone
+                    </center>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/2-strona_g%C5%82%C3%B3wna.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
+
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
+                    <h:form>
+                        <p:growl id="growl" life="2000" />
+                        Nazwa użytkownika:
+                        <p:inputText /><br/>
+                        Hasło:<br/>
+                        <p:inputText /><br/>
+
+                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+
+
+
+
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+                    <h1 align="center">Zapraszamy do kontaktu</h1>
+                    <h:form>
+                        <Table align="center"> 
+                        
+                        <p:growl id="growl" life="2000" />
+                        <tr>
+                            <td>Numer telefonu:</td>
+                            <td>666-666-666<br/></td>
+                        </tr>
+                        <tr>
+                            <td>Siedziba:<br/></td>
+                            <td>
+                            Politechnika Krakowska im. Tadeusza Kościuszki<br/>
+                            ul. Warszawska 24<br/>
+                            Kraków<br/></td>
+                        
+                        </tr>
+                        <tr>
+                            <td> E-mail: </td>
+                            <td>informatykapk2013@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">
+                                <br/>
+                                <br/>
+                        <p:commandButton disabled="true" value="Dołącz do nas!" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+                        </td>
+                        </tr>
+                        </Table>
+                    </h:form>  
+                </p:layoutUnit>
+                            </p:layout>
+
+        </h:body>
+
+    </f:view>
 </html>
+
