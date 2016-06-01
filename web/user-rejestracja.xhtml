@@ -32,11 +32,9 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="" />
+                            <p:menuitem value="Strona główna" url="index" />
                             <p:menuitem value="Wybór stacji" url="" />
-                            <p:menuitem value="Historia" url="" />
-                            <p:menuitem value="Legenda" url="" />
-                            <p:menuitem value="Kontakt" url="" />
+                            <p:menuitem value="Kontakt" url="kontakt" />
 
                         </p:submenu>
 
@@ -53,41 +51,44 @@
 
                         <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
-                        
 
-                        
+
+
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1>Witamy na stronie</h1>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.
-
-                    <h3>Wybierz stację pomiarową:</h3>
-                    <br/>
-                    <h:form id="form">
-                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
-                            <p:outputLabel for="station" value="Wybór: " />
-                            <p:selectOneMenu id="station" value="Wybierz miasto" effect="fold" editable="true">
-                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
-                                <f:selectItems value="#{wypiszDane.pobierzStacje()}" />
-                            </p:selectOneMenu>
-                            <p:commandButton value="Wybierz" oncomplete="" icon="ui-icon-check" />
-                        </h:panelGrid>
-                        
-                    </h:form>
-
-                    <center>
-                        <h:form>
-                            <p:growl id="growl" showDetail="true"  />
-
-                            <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
-                                <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
-                            </p:gmap>
-                        </h:form>
-                    </center>
-                    
-
+                    <h1 align="center">Rejestracja</h1>
+                    <h:form>
+                        <Table align="center"> 
+                           
+                        <p:growl id="growl" life="2000" />
+                         <tr>
+                             <td>Nazwa użytkownika:</td>
+                             <td> <p:inputText /><br/></td>
+                        </tr>
+                        <tr>
+                            <td>Hasło:</td>
+                            <td><p:inputText /><br/></td>
+                        </tr>
+                        <tr>
+                            <td>Powtórz hasło:</td>
+                            <td><p:inputText /><br/></td>
+                        </tr>
+                        <tr>
+                            <td> E-mail: </td>
+                            <td><p:inputText /><br/></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">
+                                <br/>
+                                <br/>
+                        <p:commandButton  value="Zarejestruj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+                        </td>
+                        </tr>
+                        </Table>
+                    </h:form>  
                 </p:layoutUnit>
 
 

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,6 +25,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Uzytkownik.findByEmail", query = "SELECT u FROM Uzytkownik u WHERE u.email = :email"),
     @NamedQuery(name = "Uzytkownik.findByHaslo", query = "SELECT u FROM Uzytkownik u WHERE u.haslo = :haslo")})
 public class Uzytkownik implements Serializable {
+
+    @JoinColumn(name = "ID_UPRAWNIENIE", referencedColumnName = "ID_UPRAWNIENIE")
+    @ManyToOne
+    private Uprawnienie idUprawnienie;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -110,6 +116,14 @@ public class Uzytkownik implements Serializable {
     @Override
     public String toString() {
         return "model.Uzytkownik[ idUzytkownik=" + idUzytkownik + " ]";
+    }
+
+    public Uprawnienie getIdUprawnienie() {
+        return idUprawnienie;
+    }
+
+    public void setIdUprawnienie(Uprawnienie idUprawnienie) {
+        this.idUprawnienie = idUprawnienie;
     }
     
 }

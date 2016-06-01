@@ -32,11 +32,9 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="" />
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
                             <p:menuitem value="Wybór stacji" url="" />
-                            <p:menuitem value="Historia" url="" />
-                            <p:menuitem value="Legenda" url="" />
-                            <p:menuitem value="Kontakt" url="" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
 
                         </p:submenu>
 
@@ -53,45 +51,46 @@
 
                         <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
-                        
 
-                        
+
+
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1>Witamy na stronie</h1>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.
-
-                    <h3>Wybierz stację pomiarową:</h3>
-                    <br/>
-                    <h:form id="form">
-                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
-                            <p:outputLabel for="station" value="Wybór: " />
-                            <p:selectOneMenu id="station" value="Wybierz miasto" effect="fold" editable="true">
-                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
-                                <f:selectItems value="#{wypiszDane.pobierzStacje()}" />
-                            </p:selectOneMenu>
-                            <p:commandButton value="Wybierz" oncomplete="2-strona_główna" icon="ui-icon-check" />
-                        </h:panelGrid>
+                    <h1 align="center">Zapraszamy do kontaktu</h1>
+                    <h:form>
+                        <Table align="center"> 
                         
-                    </h:form>
-
-                    <center>
-                        <h:form>
-                            <p:growl id="growl" showDetail="true"  />
-
-                            <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
-                                <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
-                            </p:gmap>
-                        </h:form>
-                    </center>
-                    
-
+                        <p:growl id="growl" life="2000" />
+                        <tr>
+                            <td>Numer telefonu:</td>
+                            <td>666-666-666<br/></td>
+                        </tr>
+                        <tr>
+                            <td>Siedziba:<br/></td>
+                            <td>
+                            Politechnika Krakowska im. Tadeusza Kościuszki<br/>
+                            ul. Warszawska 24<br/>
+                            Kraków<br/></td>
+                        
+                        </tr>
+                        <tr>
+                            <td> E-mail: </td>
+                            <td>informatykapk2013@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">
+                                <br/>
+                                <br/>
+                        <p:commandButton disabled="true" value="Dołącz do nas!" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+                        </td>
+                        </tr>
+                        </Table>
+                    </h:form>  
                 </p:layoutUnit>
-
-
-            </p:layout>
+                            </p:layout>
 
         </h:body>
 

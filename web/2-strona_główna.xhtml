@@ -53,41 +53,49 @@
 
                         <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
-                        
 
-                        
+
+
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1>Witamy na stronie</h1>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.
+                    <h1>Dane pomiarowe dla: Kraków</h1>
+                    <p:dataTable id="pomiary" value="#{wypiszDane.pobierzPomiary()}" var="pomiar" >
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
+                                <h:outputLabel value="#{pomiar.dataPlusCzas} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
+                                <h:outputLabel value="#{pomiar.wartosc} "/>
+                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
+                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
+                            </div>
+                        </p:column>
+                        <f:facet name="header">
+                            Dane z ostatnich godzin:
 
-                    <h3>Wybierz stację pomiarową:</h3>
-                    <br/>
-                    <h:form id="form">
-                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
-                            <p:outputLabel for="station" value="Wybór: " />
-                            <p:selectOneMenu id="station" value="Wybierz miasto" effect="fold" editable="true">
-                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
-                                <f:selectItems value="#{wypiszDane.pobierzStacje()}" />
-                            </p:selectOneMenu>
-                            <p:commandButton value="Wybierz" oncomplete="2-strona_główna" icon="ui-icon-check" />
-                        </h:panelGrid>
+                        </f:facet>
                         
-                    </h:form>
-
-                    <center>
-                        <h:form>
-                            <p:growl id="growl" showDetail="true"  />
-
-                            <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
-                                <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
-                            </p:gmap>
-                        </h:form>
-                    </center>
+                    </p:dataTable>
+                    <h1>Wykresy:</h1>
+                    <h2>Temperatura:</h2>                   
+                    <h2>Wilgotność powietrza:</h2>
+                    <h2>Prędkość maksymalna wiatru:</h2>
+                    <h2>Srednia prędkość wiatru:</h2>
+                    <h2>Ilość opadów:</h2>
+                    <h2>Ciśnienie:</h2>
+                    <h2>Nasłonecznienie:</h2>
                     
-
                 </p:layoutUnit>
 
 
