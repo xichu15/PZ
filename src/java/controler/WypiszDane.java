@@ -7,6 +7,7 @@ package controler;
 
 import ejb.DataBean;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;

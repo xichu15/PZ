@@ -4,6 +4,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -228,6 +229,7 @@ public class DataBean {
                 uzytkownik.setLogin(nowyLogin);
             }
             if(!noweHaslo.isEmpty()){
+                noweHaslo = sha256(noweHaslo);
                 uzytkownik.setHaslo(noweHaslo);
             }
             if(!nowyEmail.isEmpty()){
@@ -388,6 +390,7 @@ public class DataBean {
             catch(Exception e){
                 throw new EJBException(e.getMessage());
             }
+            Collections.sort(pomiary, Pomiar.pomiarPorownajDaty);
         return pomiary;
     }
     

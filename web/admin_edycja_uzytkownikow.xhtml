@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>System zbierania danych klimatycznych</title>
+            </f:facet>
+            <script src="http://maps.google.com/maps/api/js?sensor=true|false"
+            type="text/javascript"></script> 
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+
+                <p:layoutUnit position="north" size="100" resizable="true" closable="true" collapsible="true">
+
+                    <center><h1>System zbierania danych klimatycznych</h1></center>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="40" closable="true" collapsible="true">
+                    <center>Krzysztof Łygas, Adrianna Lipińska, Mariusz Smoleń &copy; Wszelkie prawa zastrzeżone
+                    </center>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="Menu">
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/admin_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/admin_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/admin_kontakt.xhtml" />
+                        </p:submenu>
+                    </p:menu>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
+                    <h:form>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
+                                <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
+                                <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
+                                <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
+                            </p:submenu>
+                        </p:menu>
+                    </h:form>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="center" >
+                    <h:form id="form">
+                        <p:dataGrid var="uzytkownik" value="#{wypiszDane.pobierzUzytkownikow()}" columns="3" 
+                            rows="12" paginator="true" id="pomiary"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+ 
+                            <f:facet name="header">
+                                Wybierz użytkownika do edycji
+                            </f:facet>
+ 
+                            <p:panel header="#{uzytkownik.login}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <h:outputText value="Login: #{uzytkownik.login}" />
+                                    <h:outputText value="Email: #{uzytkownik.email}" />
+
+                                    <h:link value="Edytuj użytkownika" outcome="admin_edycja_uzytkownikow_wybrany" >
+                                        <f:param name="userid" id="userid" value="#{uzytkownik.idUzytkownik}"/>
+                                    </h:link>
+                                    <h:commandLink  value="Usun użytkownika" action="#{usunUzytkownika.usunUzytkownika(uzytkownik)}"/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+                    </h:form>  
+                </p:layoutUnit>
+            </p:layout>
+        </h:body>
+
+    </f:view>
+</html>
+

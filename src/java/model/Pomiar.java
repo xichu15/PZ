@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -98,7 +99,7 @@ public class Pomiar implements Serializable {
         Calendar godzina = Calendar.getInstance();
         godzina.setTime(czasPomiaru);
         
-        data.add(Calendar.HOUR, godzina.get(Calendar.HOUR));
+        data.add(Calendar.HOUR_OF_DAY, godzina.get(Calendar.HOUR_OF_DAY));
         data.add(Calendar.MINUTE, godzina.get(Calendar.MINUTE));
         return data.getTime();
     }      
@@ -183,6 +184,19 @@ public class Pomiar implements Serializable {
         }
         return true;
     }
+    
+    public static Comparator<Pomiar> pomiarPorownajDaty = new Comparator<Pomiar>() {
+        @Override
+	public int compare(Pomiar p1, Pomiar p2) {
+	   Date dataPomiar1 = p1.getDataPlusCzas();
+	   Date dataPomiar2 = p2.getDataPlusCzas();
+
+	   //ascending order
+	   //return dataPomiar1.compareTo(dataPomiar2);
+
+	   //descending order
+	   return dataPomiar2.compareTo(dataPomiar1);
+    }};    
 
     @Override
     public String toString() {
