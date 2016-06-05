@@ -35,7 +35,6 @@
                             <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
                             <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/wybor_stacji.xhtml" />
                             <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
-
                         </p:submenu>
 
                     </p:menu>
@@ -45,26 +44,41 @@
                     <h:form>
                         <p:growl id="growl" life="2000" />
                         Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
+                        <p:inputText /><br/>
                         Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
-                        <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
-                        </center>
-                        
+                        <p:inputText /><br/>
 
-                        
+                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
-                        
+
+
+
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <center>
-                    <h1>Witamy na stronie</h1>
-                    </center>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.                   
+                    <h1 align="center">Rejestracja</h1>
+                    <h:form>
+                        <center>
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+                        <h:panelGrid columns="2" id="matchGrid" cellpadding="5">     
+                            <h:outputLabel for="login" value="Login: *" />
+                            <p:inputText id="login" value="#{dodajUzytkownika.login}" label="login" required="true" />                          
+
+                            <h:outputLabel for="pwd1" value="Hasło: *" />
+                            <p:password id="pwd1" value="#{dodajUzytkownika.haslo}" match="pwd2" label="Password 1" required="true" />
+
+                            <h:outputLabel for="pwd2" value="Powtórz hasło: *" />
+                            <p:password id="pwd2" value="#{dodajUzytkownika.powtorzHaslo}" label="Password 2" required="true" />
+                            
+                            <h:outputLabel for="email" value="Email: *" />
+                            <p:inputText id="email" value="#{dodajUzytkownika.email}" label="email" required="true" />  
+                        </h:panelGrid>
+ 
+                        <p:commandButton update="matchGrid" value="Zarejestruj" action="#{dodajUzytkownika.dodajNowegoUzytkownika()}"/>
+                        </center>
+                    </h:form>  
                 </p:layoutUnit>
 
 

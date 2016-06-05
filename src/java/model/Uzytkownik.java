@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
 import java.io.Serializable;
@@ -7,14 +12,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ *
+ * @author NP550P5C-SO4PL
+ */
 @Entity
 @Table(name = "UZYTKOWNIK")
 @XmlRootElement
@@ -25,10 +32,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Uzytkownik.findByEmail", query = "SELECT u FROM Uzytkownik u WHERE u.email = :email"),
     @NamedQuery(name = "Uzytkownik.findByHaslo", query = "SELECT u FROM Uzytkownik u WHERE u.haslo = :haslo")})
 public class Uzytkownik implements Serializable {
-
-    @JoinColumn(name = "ID_UPRAWNIENIE", referencedColumnName = "ID_UPRAWNIENIE")
-    @ManyToOne
-    private Uprawnienie idUprawnienie;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,9 +56,9 @@ public class Uzytkownik implements Serializable {
     public Uzytkownik(Integer idUzytkownik) {
         this.idUzytkownik = idUzytkownik;
     }
-
-    public Uzytkownik(Integer valueOf, String login, String haslo, String email) {
-        this.idUzytkownik = valueOf;
+    
+    public Uzytkownik(Integer idUzytkownik, String login, String haslo, String email) {
+        this.idUzytkownik = idUzytkownik;
         this.login = login;
         this.haslo = haslo;
         this.email = email;
@@ -116,14 +119,6 @@ public class Uzytkownik implements Serializable {
     @Override
     public String toString() {
         return "model.Uzytkownik[ idUzytkownik=" + idUzytkownik + " ]";
-    }
-
-    public Uprawnienie getIdUprawnienie() {
-        return idUprawnienie;
-    }
-
-    public void setIdUprawnienie(Uprawnienie idUprawnienie) {
-        this.idUprawnienie = idUprawnienie;
     }
     
 }

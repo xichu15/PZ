@@ -15,6 +15,10 @@
             type="text/javascript"></script> 
         </h:head>
 
+        <f:metadata> 
+            <f:viewParam name="stacjaid" value="#{wypiszPomiary.idStacji}"/>
+        </f:metadata>        
+        
         <h:body>
 
             <p:layout fullPage="true">
@@ -45,26 +49,55 @@
                     <h:form>
                         <p:growl id="growl" life="2000" />
                         Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
+                        <p:inputText /><br/>
                         Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
-                        <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
-                        </center>
-                        
+                        <p:inputText /><br/>
 
-                        
+                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
-                        
+
+
+
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <center>
-                    <h1>Witamy na stronie</h1>
-                    </center>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.                   
+                    <h1>Dane pomiarowe dla: </h1>
+                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
+                                <h:outputLabel value="#{pomiar.dataString} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
+                                <h:outputLabel value="#{pomiar.wartosc} "/>
+                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
+                            </div>
+                        </p:column>
+                        <p:column>
+                            <div align="center">
+                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
+                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
+                            </div>
+                        </p:column>
+                        <f:facet name="header">
+                            Dane z ostatnich godzin:
+
+                        </f:facet>
+                        
+                    </p:dataTable>
+                    <h1>Wykresy:</h1>
+                    <h2>Temperatura:</h2>                   
+                    <h2>Wilgotność powietrza:</h2>
+                    <h2>Prędkość maksymalna wiatru:</h2>
+                    <h2>Srednia prędkość wiatru:</h2>
+                    <h2>Ilość opadów:</h2>
+                    <h2>Ciśnienie:</h2>
+                    <h2>Nasłonecznienie:</h2>
+                    
                 </p:layoutUnit>
 
 

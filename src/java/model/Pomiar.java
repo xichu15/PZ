@@ -101,7 +101,36 @@ public class Pomiar implements Serializable {
         data.add(Calendar.HOUR, godzina.get(Calendar.HOUR));
         data.add(Calendar.MINUTE, godzina.get(Calendar.MINUTE));
         return data.getTime();
+    }      
+    
+    public String getDataString(){
+        Calendar data = Calendar.getInstance();
+        data.setTime(dataPomiaru);
+        Calendar godzina = Calendar.getInstance();
+        godzina.setTime(czasPomiaru);
+
+        String czas = wyswietlCzas(godzina);
+        String dzien = data.get(Calendar.DATE) + "/" + (data.get(Calendar.MONTH)+1) + "/" + data.get(Calendar.YEAR);
+        return dzien + " " + czas;
     }    
+    
+    public String wyswietlCzas(Calendar godzina){
+        String string = "";
+        Integer czas;
+        czas = godzina.get(Calendar.HOUR_OF_DAY); 
+        if(czas <= 9){
+            string += "0";
+        }
+        string += czas.toString();
+        string += ":";
+        czas = godzina.get(Calendar.MINUTE);
+        if(czas <= 9){
+            string += "0";
+        }
+        string += czas.toString();
+        
+        return string;             
+    }
     
     public Double getWartosc() {
         return wartosc;

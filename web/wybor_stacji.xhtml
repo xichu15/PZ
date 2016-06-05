@@ -45,14 +45,11 @@
                     <h:form>
                         <p:growl id="growl" life="2000" />
                         Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
+                        <p:inputText /><br/>
                         Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
-                        <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
-                        </center>
-                        
+                        <p:inputText /><br/>
+
+                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
 
                         
 
@@ -62,9 +59,34 @@
 
                 <p:layoutUnit position="center" >
                     <center>
-                    <h1>Witamy na stronie</h1>
+                    <h1>Wybierz stację pomiarową:</h1>
+                    <br/>
+                    <h:form id="form">
+                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
+                            <p:outputLabel for="station" value="Wybór: " />
+                            <p:selectOneMenu var="stacja" id="station" value="#{wypiszDane.pobierzStacje()}" effect="fold">
+                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
+                                <f:selectItem value="#{stacja.nazwa}" itemValue="#{stacja.nazwa}" itemLabel="#{stacja.nazwa}" />
+                            </p:selectOneMenu>
+                            <p:commandButton value="Wybierz" actionListener="dane_pomiarowe" >
+                                <f:param name="stacjaid" id="stacjaid" value="#{stacja.idStacja}"/>
+                            </p:commandButton>
+                        </h:panelGrid>
+                        
+                    </h:form>
                     </center>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.                   
+                    
+                    <center>
+                        <h:form>
+                            <p:growl id="growl" showDetail="true"  />
+
+                            <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
+                                <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
+                            </p:gmap>
+                        </h:form>
+                    </center>
+                    
+
                 </p:layoutUnit>
 
 

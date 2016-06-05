@@ -17,16 +17,29 @@ public class DodajUzytkownika implements Serializable{
     private String login;
     private String email;
     private String haslo;
+    private String powtorzHaslo;
     
     public DodajUzytkownika() {}
     
     public void dodajNowegoUzytkownika(){
+        Boolean istniejeLogin = true;
         try{
-            db.dodajUzytkownika(getLogin(), getHaslo(), getEmail());
+            istniejeLogin = db.sprawdzLogin(getLogin());
         }
         catch(Exception e){
-            logger.warning("Nie udalo sie dodac uzytkownika");
+            logger.warning("Nie udalo sie sprawdzic loginu");
             e.printStackTrace();
+        }
+        if(!istniejeLogin){
+            try{
+                db.dodajUzytkownika(getLogin(), getHaslo(), getEmail());
+            }
+            catch(Exception e){
+                logger.warning("Nie udalo sie dodac uzytkownika");
+                e.printStackTrace();
+            }            
+        } else{
+            logger.warning("Login juz istnieje");
         }
     }    
     
@@ -52,6 +65,14 @@ public class DodajUzytkownika implements Serializable{
 
     public void setHaslo(String haslo) {
         this.haslo = haslo;
+    }
+
+    public String getPowtorzHaslo() {
+        return powtorzHaslo;
+    }
+
+    public void setPowtorzHaslo(String powtorzHaslo) {
+        this.powtorzHaslo = powtorzHaslo;
     }
     
 }

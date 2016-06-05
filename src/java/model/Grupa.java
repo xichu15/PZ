@@ -51,6 +51,12 @@ public class Grupa implements Serializable {
     public Grupa(Integer idGrupa) {
         this.idGrupa = idGrupa;
     }
+    
+    public Grupa(Integer idGrupa, String uzytkownik, String nazwaGrupy) {
+        this.idGrupa = idGrupa;
+        this.uzytkownik = uzytkownik;
+        this.nazwagrupy = nazwaGrupy;
+    }
 
     public Integer getIdGrupa() {
         return idGrupa;

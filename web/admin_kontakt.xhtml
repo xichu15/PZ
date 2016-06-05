@@ -32,9 +32,9 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
-                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/wybor_stacji.xhtml" />
-                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/admin_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/admin_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/admin_kontakt.xhtml" />
 
                         </p:submenu>
 
@@ -44,31 +44,48 @@
                 <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
                     <h:form>
                         <p:growl id="growl" life="2000" />
-                        Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
-                        Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
                         <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
+                        <p:commandLink value="Wyloguj" action="#{przekierowanie.wyloguj()}"/>
                         </center>
-                        
 
-                        
 
-                        
                     </h:form>
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <center>
-                    <h1>Witamy na stronie</h1>
-                    </center>
-                    Celem naszego systemu jest symulowanie danych dotyczących warunków pogodowych, takich tak temperatura, wilgotność powietrza, kierunek wiatru oraz dostarczenie narzędzi, ułatwiających wizualizacje zmian tychże parametrów w czasie rzeczywistym oraz na podstawie danych archiwalnych. Wizualizacja polegać będzie na tworzeniu wykresów czynników meteorologicznych względem czasu dla każdej symulowanej stacji pomiarowej.                   
+                    <h1 align="center">Zapraszamy do kontaktu</h1>
+                    <h:form>
+                        <Table align="center"> 
+                        
+                        <p:growl id="growl" life="2000" />
+                        <tr>
+                            <td>Numer telefonu:</td>
+                            <td>666-666-666<br/></td>
+                        </tr>
+                        <tr>
+                            <td>Siedziba:<br/></td>
+                            <td>
+                            Politechnika Krakowska im. Tadeusza Kościuszki<br/>
+                            ul. Warszawska 24<br/>
+                            Kraków<br/></td>
+                        
+                        </tr>
+                        <tr>
+                            <td> E-mail: </td>
+                            <td>informatykapk2013@gmail.com</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td align="center">
+                                <br/>
+                                <br/>
+                        <p:commandButton disabled="true" value="Dołącz do nas!" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
+                        </td>
+                        </tr>
+                        </Table>
+                    </h:form>  
                 </p:layoutUnit>
-
-
-            </p:layout>
+                            </p:layout>
 
         </h:body>
 

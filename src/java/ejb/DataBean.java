@@ -15,6 +15,7 @@ import model.Archiwumpomiar;
 import model.Czujnik;
 import model.Element;
 import model.Gatunekchmur;
+import model.Grupa;
 import model.Pomiar;
 import model.Rodzajchmur;
 import model.Stacja;
@@ -33,10 +34,13 @@ public class DataBean {
     
     public void dodajUzytkownika(String login, String haslo, String email) {
         try{
-            login = sha256(haslo);
+            haslo = sha256(haslo);
             Uzytkownik dodawany = new Uzytkownik(Integer.valueOf(1), login, haslo, email);
             logger.info("Dodaje uzytkownika: " + login);
             em.persist(dodawany);
+            Grupa przypisanie = new Grupa(Integer.valueOf(1), login, "usergroup");
+            logger.info("Dodaje uzytkownika do grupy");
+            em.persist(przypisanie);
         }
         catch(Exception e){
             throw new EJBException(e.getMessage());
@@ -501,6 +505,95 @@ public class DataBean {
                 }
             }
         return znaczniki;        
+    }
+
+    /********** Inne funkcjonalnosci **********/
+    
+    public Boolean sprawdzLogin(String login, String haslo) throws NoSuchAlgorithmException {
+        List<Uzytkownik> uzytkownicy = null;
+        Boolean poprawny = false;
+            try{
+                logger.info("Pobieram liste uzytkownikow");
+                uzytkownicy = (List<Uzytkownik>) em.createNamedQuery("Uzytkownik.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Uzytkownik sprawdzany : uzytkownicy){
+            if(sprawdzany.getLogin().equals(login)){
+                if(sprawdzSha256(sprawdzany.getHaslo(), haslo)){
+                    poprawny = true;
+                }
+            }
+        }
+        return poprawny;
+    }
+    
+    static Boolean sprawdzSha256(String hasloUzytkownika, String hasloWprowadzone) throws NoSuchAlgorithmException {
+        MessageDigest mDigest = MessageDigest.getInstance("SHA-256");
+        byte[] result = mDigest.digest(hasloWprowadzone.getBytes());
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+        Boolean takieSame = false;
+        if(sb.toString().equals(hasloUzytkownika))
+            takieSame = true;
+         
+        return takieSame;
+    }
+
+    public String znajdzGrupe(String login) {
+        List<Grupa> grupy = null;
+        String grupaUzytkownika = "";
+            try{
+                logger.info("Pobieram liste grup");
+                grupy = (List<Grupa>) em.createNamedQuery("Grupa.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }          
+        for(Grupa grupa : grupy){
+            if(grupa.getUzytkownik().equals(login)){
+                grupaUzytkownika = grupa.getNazwagrupy();
+            }
+        }    
+        return grupaUzytkownika; 
+    }
+
+    public Integer znajdzUzytkownika(String login) {
+        List<Uzytkownik> uzytkownicy = null;
+        Integer idUzytkownika = 0;
+            try{
+                logger.info("Pobieram liste uzytkownikow");
+                uzytkownicy = (List<Uzytkownik>) em.createNamedQuery("Uzytkownik.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Uzytkownik sprawdzany : uzytkownicy){
+            if(sprawdzany.getLogin().equals(login)){
+                idUzytkownika = sprawdzany.getIdUzytkownik();
+            }
+        }
+        return idUzytkownika;        
+    }
+
+    public Boolean sprawdzLogin(String login) {
+        List<Uzytkownik> uzytkownicy = null;
+            try{
+                logger.info("Pobieram liste uzytkownikow");
+                uzytkownicy = (List<Uzytkownik>) em.createNamedQuery("Uzytkownik.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Uzytkownik sprawdzany : uzytkownicy){
+            if(sprawdzany.getLogin().equals(login)){
+                return true;
+            }
+        }
+        return false;           
     }
 
     /********** Szukanie po ID **********/

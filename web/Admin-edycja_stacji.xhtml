@@ -59,7 +59,7 @@
 
                 <p:layoutUnit position="center" >
                     <h:form id="form">
-    <p:dataGrid var="pomiar" value="#{wypiszDane.pobierzPomiary()}" columns="1" 
+    <p:dataGrid var="pomiar" value="#{wypiszDane.pobierzPomiary()}" columns="3" 
         rows="12" paginator="true" id="pomiary"
         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
         rowsPerPageTemplate="6,12,16">
@@ -71,9 +71,8 @@
         <p:panel header="#{pomiar.idPomiar}" style="text-align:center">
             <h:panelGrid columns="1" style="width:100%">
  
-                <h:outputText value="#{pomiar.dataPomiaru}" />
-                <h:outputText value="#{pomiar.czasPomiaru}" />
-                <h:outputText value="#{pomiar.wartosc}" />
+                <h:outputText value="#{pomiar.dataString}" />
+                <h:outputText value="#{pomiar.idElement.nazwa}: #{pomiar.wartosc}#{pomiar.idElement.jednostka}" />
  
                 <h:link value="Edytuj" outcome="Admin_edycja_pomiarow_konkret" >
                     <f:param name="pomiarid" id="pomiarid" value="#{pomiar.idPomiar}"/>
