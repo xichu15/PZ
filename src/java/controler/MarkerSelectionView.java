@@ -45,7 +45,11 @@ public class MarkerSelectionView implements Serializable {
       
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();
-         
+        System.out.println("PO WYBRANIU ZNACZNIKA PRZYPISUJEMY ID!!");
+        Integer znalezioneId = db.znajdzIdStacji(marker.getTitle());
+        System.out.println("ID = " + znalezioneId);
+        WypiszPomiary wp = new WypiszPomiary();
+        wp.przypiszId(znalezioneId);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Wybrana lokacja", marker.getTitle()));
     }
       

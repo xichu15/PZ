@@ -13,6 +13,7 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import model.Pomiar;
+import model.Stacja;
 
 /**
  *
@@ -25,13 +26,14 @@ public class WypiszPomiary implements Serializable{
     
     @EJB
     private DataBean db;
-    private Integer idStacji;
+    private static Integer idStacji = 0;
     private List<Pomiar> pomiary;
     
     public WypiszPomiary() {
     }
     
     public List<Pomiar> pobierzPomiary(){
+        System.out.println("Posiadane id: " + idStacji);
         try{
             this.pomiary = db.pobierzPomiary(getIdStacji());
         }
@@ -41,14 +43,21 @@ public class WypiszPomiary implements Serializable{
         }
         return pomiary;
     }    
+    
+    public void wybierzStacje(){
+        System.out.println("Nasze idStacji: " + idStacji);
+    }
 
     public Integer getIdStacji() {
-        return idStacji;
+        return WypiszPomiary.idStacji;
     }
 
-    public void setIdStacji(Integer idStacji) {
-        this.idStacji = idStacji;
+    public void setIdStacji(Integer idStacji2) {
+        WypiszPomiary.idStacji = idStacji2;
     }
     
+    public void przypiszId(Integer idStacji){
+        WypiszPomiary.idStacji = idStacji;
+    }
     
 }

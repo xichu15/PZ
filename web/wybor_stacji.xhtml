@@ -35,7 +35,6 @@
                             <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
                             <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/wybor_stacji.xhtml" />
                             <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
-
                         </p:submenu>
 
                     </p:menu>
@@ -58,28 +57,27 @@
                 <p:layoutUnit position="center" >
                     <center>
                     <h1>Wybierz stację pomiarową:</h1>
+                    <h4>Wybierz, zatwierdź i przejdź</h4>
                     <br/>
                     <h:form id="form">
                         <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
                             <p:outputLabel for="station" value="Wybór: " />
-                            <p:selectOneMenu var="stacja" id="station" value="#{wypiszDane.pobierzStacje()}" effect="fold">
+                            <p:selectOneMenu id="station" value="#{wypiszPomiary.idStacji}" effect="fold">
                                 <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
-                                <f:selectItem value="#{stacja.nazwa}" itemValue="#{stacja.nazwa}" itemLabel="#{stacja.nazwa}" />
+                                <f:selectItems var="stacja" itemLabel="#{stacja.nazwa}" itemValue="#{stacja.idStacja}" value="#{wypiszDane.pobierzStacje()}" />
                             </p:selectOneMenu>
-                            <p:commandButton value="Wybierz" actionListener="dane_pomiarowe" >
-                                <f:param name="stacjaid" id="stacjaid" value="#{stacja.idStacja}"/>
-                            </p:commandButton>
+                            <h:commandButton value="Zatwierdź" action="#{wypiszPomiary.wybierzStacje()}" ></h:commandButton>
                         </h:panelGrid>
                     </h:form>
                     </center>
-                    
                     <center>
                         <h:form>
                             <p:growl id="growl" showDetail="true"  />
 
                             <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
                                 <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
-                            </p:gmap>
+                            </p:gmap><br/>
+                            <h:link value="Przejdz do pomiarów" outcome="dane_pomiarowe" />
                         </h:form>
                     </center>
                     

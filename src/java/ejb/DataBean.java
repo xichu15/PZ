@@ -599,5 +599,23 @@ public class DataBean {
         return false;           
     }
 
+    public Integer znajdzIdStacji(String title) {
+        List<Stacja> stacje = null;
+        Integer idStacji = 0;
+            try{
+                logger.info("Pobieram liste stacji");
+                stacje = (List<Stacja>) em.createNamedQuery("Stacja.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Stacja sprawdzana : stacje){
+            if(sprawdzana.getNazwa().equals(title)){
+                idStacji = sprawdzana.getIdStacja();
+            }
+        }
+        return idStacji;         
+    }
+
     /********** Szukanie po ID **********/
 }
