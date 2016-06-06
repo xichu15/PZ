@@ -32,40 +32,32 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="" />
-                            <p:menuitem value="Wybór stacji" url="" />
-                            <p:menuitem value="Historia" url="" />
-                            <p:menuitem value="Legenda" url="" />
-                            <p:menuitem value="Kontakt" url="" />
-
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/user_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/user_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/user_kontakt.xhtml" />
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
+                <p:layoutUnit position="east" size="250" header="Uzytkownik" collapsible="true">
                     <h:form>
-                        <p:growl id="growl" life="2000" />
-                        Nazwa użytkownika:
-                        <p:inputText /><br/>
-                        Hasło:<br/>
-                        <p:inputText /><br/>
-
-                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
-
-
-
-
+                        <p:menu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Przegladaj archiwum" url="http://localhost:8080/PZ/faces/user_archiwum.xhtml" />
+                                <p:menuitem value="Edycja konta" url="http://localhost:8080/PZ/faces/user_edycja_konta.xhtml" />
+                                <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
+                            </p:submenu>
+                        </p:menu>
                     </h:form>
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center" >
-                    <h1>Dane pomiarowe dla: Kraków</h1>
-                    <p:dataTable id="pomiary" value="#{wypiszDane.pobierzPomiary()}" var="pomiar" >
+                    <h1>Dane pomiarowe dla: </h1>
+                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
                         <p:column>
                             <div align="center">
                                 <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
-                                <h:outputLabel value="#{pomiar.dataPlusCzas} "/>
+                                <h:outputLabel value="#{pomiar.dataString} "/>
                             </div>
                         </p:column>
                         <p:column>
@@ -85,19 +77,8 @@
                             Dane z ostatnich godzin:
 
                         </f:facet>
-                        
-                    </p:dataTable>
-                    <h1>Wykresy:</h1>
-                    <h2>Temperatura:</h2>                   
-                    <h2>Wilgotność powietrza:</h2>
-                    <h2>Prędkość maksymalna wiatru:</h2>
-                    <h2>Srednia prędkość wiatru:</h2>
-                    <h2>Ilość opadów:</h2>
-                    <h2>Ciśnienie:</h2>
-                    <h2>Nasłonecznienie:</h2>
                     
                 </p:layoutUnit>
-
 
             </p:layout>
 

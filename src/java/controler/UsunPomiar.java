@@ -20,6 +20,7 @@ public class UsunPomiar implements Serializable{
  
     public void usunPomiar(Pomiar usuwany) {
         try{
+            db.dodajArchiwum(usuwany);
             db.usunPomiar(usuwany);
         }
         catch(Exception e)

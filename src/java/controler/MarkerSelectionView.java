@@ -11,7 +11,6 @@ import javax.faces.context.FacesContext;
   
 import org.primefaces.event.map.OverlaySelectEvent;
 import org.primefaces.model.map.DefaultMapModel;
-import org.primefaces.model.map.LatLng;
 import org.primefaces.model.map.MapModel;
 import org.primefaces.model.map.Marker;
  
@@ -45,11 +44,13 @@ public class MarkerSelectionView implements Serializable {
       
     public void onMarkerSelect(OverlaySelectEvent event) {
         marker = (Marker) event.getOverlay();
-        System.out.println("PO WYBRANIU ZNACZNIKA PRZYPISUJEMY ID!!");
         Integer znalezioneId = db.znajdzIdStacji(marker.getTitle());
-        System.out.println("ID = " + znalezioneId);
         WypiszPomiary wp = new WypiszPomiary();
         wp.przypiszId(znalezioneId);
+        RysujWykresy rw = new RysujWykresy();
+        rw.setIdStacji(znalezioneId);
+        RysujWykresyArchiwum rwa = new RysujWykresyArchiwum();
+        rwa.setIdStacji(znalezioneId);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Wybrana lokacja", marker.getTitle()));
     }
       

@@ -15,7 +15,7 @@
             type="text/javascript"></script> 
         </h:head>
         <f:metadata> 
-            <f:viewParam name="userid" value="#{edytujUzytkownika.idUzytkownik}"/>
+            <f:viewParam name="pomiarid" value="#{edytujArchiwum.idPomiar}"/>
         </f:metadata>
         <h:body>
 
@@ -56,41 +56,41 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1 align="center">Edytuj wybranego uzytkownika</h1>
+                    <h1 align="center">Edytuj wybrane archiwum</h1>
                     <h:form>
                         <table align="center">
                             <tr>
                                 <td>
-                                <p:outputLabel value="Login :"/> </td>
-                                <td> <p:inputText value="#{edytujUzytkownika.nowyLogin}"/></td>
+                                <p:outputLabel value="Wartosc :"/> </td>
+                                <td> <p:inputText value="#{edytujArchiwum.nowaWartosc}"/></td>
                             </tr>
            
                             <tr>
-                                <td> <p:outputLabel value="Email"/></td>
-                                <td>     <p:inputText value="#{edytujUzytkownika.nowyEmail}"/></td>
+                                <td> <p:outputLabel value="Godziny : Minuty"/></td>
+                                <td>     
+                                    <p:inputText size="2" value="#{edytujArchiwum.nowaGodzinaPomiaru}"/>
+                                    <p:outputLabel value=" : "/>
+                                    <p:inputText size="2" value="#{edytujArchiwum.nowaMinutaPomiaru}"/> 
+                                </td>
                             </tr>
                 
                             <tr>
                                 <td>
-                                <p:outputLabel value="Haslo:"/>
+                                    <p:outputLabel value="Data:"/>
                                 </td>
                                 <td>
-                                <p:calendar value="#{edytujUzytkownika.noweHaslo}"/>
+                                    <p:calendar value="#{edytujArchiwum.nowaDataPomiaru}"/>
                                 </td>
                             </tr>
                 
                             <tr>
                                 <td></td>
-                                <td><br/><br/><p:commandLink value="Edytuj" action="#{edytujUzytkownika.edytujUzytkownika()}"/></td>
+                                <td><br/><br/><p:commandLink value="Edytuj" action="#{edytujArchiwum.edytujArchiwum()}"/></td>
                             </tr>
                         </table>
                     </h:form>
                 </p:layoutUnit>
-
-
             </p:layout>
-
         </h:body>
-
     </f:view>
 </html>

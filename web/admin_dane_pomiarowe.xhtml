@@ -33,26 +33,26 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
-                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/wybor_stacji.xhtml" />
-                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/admin_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/admin_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/admin_kontakt.xhtml" />
 
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
+                <p:layoutUnit position="east" size="250" header="Administrator" collapsible="true">
                     <h:form>
-                        <p:growl id="growl" life="2000" />
-                        Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
-                        Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
-                        <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
-                        </center>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
+                                <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
+                                <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
+                                <p:menuitem value="Edycja archiwow" url="http://localhost:8080/PZ/faces/admin_edycja_archiwum.xhtml" />
+                                <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
+                            </p:submenu>
+                        </p:menu>
                     </h:form>
                 </p:layoutUnit>
 
@@ -80,12 +80,19 @@
                         </p:column>
                         <f:facet name="header">
                             Dane z ostatnich godzin:
+
                         </f:facet>
                         
                     </p:dataTable>
-                    <center>
-                        <h:link outcome="wykresy" value="Zobacz wykresy"/>
-                    </center>
+                    <h1>Wykresy:</h1>
+                    <h2>Temperatura:</h2>                   
+                    <h2>Wilgotność powietrza:</h2>
+                    <h2>Prędkość maksymalna wiatru:</h2>
+                    <h2>Srednia prędkość wiatru:</h2>
+                    <h2>Ilość opadów:</h2>
+                    <h2>Ciśnienie:</h2>
+                    <h2>Nasłonecznienie:</h2>
+                    
                 </p:layoutUnit>
 
 

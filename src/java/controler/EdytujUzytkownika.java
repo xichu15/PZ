@@ -15,29 +15,42 @@ public class EdytujUzytkownika implements Serializable{
     private DataBean db;
     
     private Integer idUzytkownik;
-    private String nowyLogin;
     private String nowyEmail;
+    private String stareHaslo;
     private String noweHaslo;
     
     public EdytujUzytkownika() {}
     
     public void edytujUzytkownika(){
         try{
-            db.edytujUzytkownika(getIdUzytkownik(), getNowyLogin(), getNoweHaslo(), getNowyEmail());
+            db.edytujUzytkownika(getIdUzytkownik(), getNoweHaslo(), getNowyEmail());
         }
         catch(Exception e){
             logger.warning("Nie udalo sie edytowac uzytkownika");
             e.printStackTrace();
         }
     }    
-
-    public String getNowyLogin() {
-        return nowyLogin;
-    }
-
-    public void setNowyLogin(String nowyLogin) {
-        this.nowyLogin = nowyLogin;
-    }
+    
+    public void edytujUzytkownika(Integer idUzytkownik){
+        Boolean hasloPoprawne = false;
+        System.out.println("Id usera: " + idUzytkownik);
+        try{
+            hasloPoprawne = db.sprawdzHaslo(idUzytkownik, getStareHaslo());
+        }
+        catch(Exception e){
+            logger.warning("Nie udalo sie sprawdzic hasla");
+            e.printStackTrace();
+        }
+        if(hasloPoprawne){
+            try{
+                db.edytujUzytkownika(idUzytkownik, getNoweHaslo(), getNowyEmail());
+            }
+            catch(Exception e){
+                logger.warning("Haslo sie nie zgadza");
+                e.printStackTrace();
+            }            
+        }
+    }    
 
     public String getNowyEmail() {
         return nowyEmail;
@@ -61,6 +74,14 @@ public class EdytujUzytkownika implements Serializable{
 
     public void setIdUzytkownik(Integer idUzytkownik) {
         this.idUzytkownik = idUzytkownik;
+    }
+
+    public String getStareHaslo() {
+        return stareHaslo;
+    }
+
+    public void setStareHaslo(String stareHaslo) {
+        this.stareHaslo = stareHaslo;
     }
 
 }

@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -65,7 +67,16 @@ public class Archiwumpomiar implements Serializable {
         this.wartosc = wartosc;
         this.dataPomiaru = dataPomiaru;
         this.czasPomiaru = czasPomiaru;
-    }        
+    }      
+    
+    public Archiwumpomiar(Integer idArchiwumPomiar, Double wartosc, Date dataPomiaru, Date czasPomiaru, Element element, Czujnik czujnik) {
+        this.idArchiwumPomiar = idArchiwumPomiar;
+        this.wartosc = wartosc;
+        this.dataPomiaru = dataPomiaru;
+        this.czasPomiaru = czasPomiaru;
+        this.idElement = element;
+        this.idCzujnik = czujnik;
+    }  
     
     public Integer getIdArchiwumPomiar() {
         return idArchiwumPomiar;
@@ -90,6 +101,46 @@ public class Archiwumpomiar implements Serializable {
     public void setCzasPomiaru(Date czasPomiaru) {
         this.czasPomiaru = czasPomiaru;
     }
+    
+    public Date getDataPlusCzas(){
+        Calendar data = Calendar.getInstance();
+        data.setTime(dataPomiaru);
+        Calendar godzina = Calendar.getInstance();
+        godzina.setTime(czasPomiaru);
+        
+        data.add(Calendar.HOUR_OF_DAY, godzina.get(Calendar.HOUR_OF_DAY));
+        data.add(Calendar.MINUTE, godzina.get(Calendar.MINUTE));
+        return data.getTime();
+    }      
+    
+    public String getDataString(){
+        Calendar data = Calendar.getInstance();
+        data.setTime(dataPomiaru);
+        Calendar godzina = Calendar.getInstance();
+        godzina.setTime(czasPomiaru);
+
+        String czas = wyswietlCzas(godzina);
+        String dzien = data.get(Calendar.DATE) + "/" + (data.get(Calendar.MONTH)+1) + "/" + data.get(Calendar.YEAR);
+        return dzien + " " + czas;
+    }    
+    
+    public String wyswietlCzas(Calendar godzina){
+        String string = "";
+        Integer czas;
+        czas = godzina.get(Calendar.HOUR_OF_DAY); 
+        if(czas <= 9){
+            string += "0";
+        }
+        string += czas.toString();
+        string += ":";
+        czas = godzina.get(Calendar.MINUTE);
+        if(czas <= 9){
+            string += "0";
+        }
+        string += czas.toString();
+        
+        return string;             
+    }    
 
     public Double getWartosc() {
         return wartosc;
@@ -143,6 +194,19 @@ public class Archiwumpomiar implements Serializable {
         return true;
     }
 
+    public static Comparator<Archiwumpomiar> pomiarPorownajDaty = new Comparator<Archiwumpomiar>() {
+        @Override
+	public int compare(Archiwumpomiar p1, Archiwumpomiar p2) {
+	   Date dataPomiar1 = p1.getDataPlusCzas();
+	   Date dataPomiar2 = p2.getDataPlusCzas();
+
+	   //ascending order
+	   //return dataPomiar1.compareTo(dataPomiar2);
+
+	   //descending order
+	   return dataPomiar2.compareTo(dataPomiar1);
+    }};       
+    
     @Override
     public String toString() {
         return "model.Archiwumpomiar[ idArchiwumPomiar=" + idArchiwumPomiar + " ]";

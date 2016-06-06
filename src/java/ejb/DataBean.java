@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -117,7 +118,18 @@ public class DataBean {
     public void dodajArchiwum(double wartosc, Date data, Date czas) {
         try{
             Archiwumpomiar dodawany = new Archiwumpomiar(Integer.valueOf(1), wartosc, data, czas);
-            logger.info("Dodaje pomiar: " + data);
+            logger.info("Dodaje archiwum: " + data);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
+    
+    public void dodajArchiwum(Pomiar usuwany) {
+        try{
+            Archiwumpomiar dodawany = new Archiwumpomiar(Integer.valueOf(1), usuwany.getWartosc(), usuwany.getDataPomiaru(), usuwany.getCzasPomiaru(), usuwany.getIdElement(), usuwany.getIdCzujnik());
+            logger.info("Dodaje archiwum: " + usuwany.getDataString());
             em.persist(dodawany);
         }
         catch(Exception e){
@@ -220,14 +232,11 @@ public class DataBean {
 
     /********** Edytowanie obiektow **********/
     
-    public void edytujUzytkownika(Integer idUzytkownik, String nowyLogin, String noweHaslo, String nowyEmail) {
+    public void edytujUzytkownika(Integer idUzytkownik, String noweHaslo, String nowyEmail) {
         try{
             logger.info("Szukanie uzytkownika id: " + idUzytkownik);
             Uzytkownik uzytkownik = em.find(Uzytkownik.class, idUzytkownik);
-            logger.info("Edycja uzytkownika: " + uzytkownik.getLogin());
-            if(!nowyLogin.isEmpty()){
-                uzytkownik.setLogin(nowyLogin);
-            }
+            logger.info("Edycja uzytkownika");
             if(!noweHaslo.isEmpty()){
                 noweHaslo = sha256(noweHaslo);
                 uzytkownik.setHaslo(noweHaslo);
@@ -487,7 +496,39 @@ public class DataBean {
             catch(Exception e){
                 throw new EJBException(e.getMessage());
             }
+            Collections.sort(archiwa, Archiwumpomiar.pomiarPorownajDaty);
         return archiwa;
+    }
+    
+    public List<Archiwumpomiar> pobierzArchiwum(Integer idStacji, Date dataOd, Date dataDo) {
+        List<Archiwumpomiar> archiwa;
+        ArrayList<Archiwumpomiar> archiwaStacji = new ArrayList<>();
+        Calendar czasDo = Calendar.getInstance();
+        czasDo.setTime(dataDo);
+        Calendar czasOd = Calendar.getInstance();
+        czasOd.setTime(dataOd);
+        System.out.println("Data od: " + dataOd.toString() + " data do: " + dataDo.toString() + " id stacji: " + idStacji);
+            try{
+                logger.info("Pobieram liste archiwow");
+                archiwa = (List<Archiwumpomiar>) em.createNamedQuery("Archiwumpomiar.findAll").getResultList();
+                logger.info("Szukam stacji");
+                Stacja stacja = em.find(Stacja.class, idStacji);
+                for(Archiwumpomiar pomiar : archiwa){
+                    Calendar czasPomiaru = Calendar.getInstance();
+                    System.out.println("Id stacji w petli: " + pomiar.getIdCzujnik().getIdStacja().getIdStacja());
+                    czasPomiaru.setTime(pomiar.getDataPlusCzas());
+                    if(pomiar.getIdCzujnik().getIdStacja() == stacja && czasPomiaru.after(czasOd) && czasPomiaru.before(czasDo)){
+                        archiwaStacji.add(pomiar);
+                    }
+                }
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+            for(Archiwumpomiar pomiar : archiwaStacji){
+                System.out.println("Znalezione id: " + pomiar.getIdArchiwumPomiar());
+            }
+        return archiwaStacji;        
     }
 
     public List<Marker> pobierzLokacje() {
@@ -615,6 +656,20 @@ public class DataBean {
             }
         }
         return idStacji;         
+    }
+
+    public Boolean sprawdzHaslo(Integer idUzytkownik, String stareHaslo) {
+        Uzytkownik uzytkownik;
+            try{
+                logger.info("Szukam uzytkownika");
+                uzytkownik = (Uzytkownik) em.find(Uzytkownik.class, idUzytkownik);
+                if(uzytkownik.getHaslo().equals(sha256(stareHaslo)))
+                    return true;
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }
+        return false;    
     }
 
     /********** Szukanie po ID **********/

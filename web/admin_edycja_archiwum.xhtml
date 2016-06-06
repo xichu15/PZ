@@ -14,9 +14,7 @@
             <script src="http://maps.google.com/maps/api/js?sensor=true|false"
             type="text/javascript"></script> 
         </h:head>
-        <f:metadata> 
-            <f:viewParam name="userid" value="#{edytujUzytkownika.idUzytkownik}"/>
-        </f:metadata>
+
         <h:body>
 
             <p:layout fullPage="true">
@@ -56,41 +54,34 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1 align="center">Edytuj wybranego uzytkownika</h1>
-                    <h:form>
-                        <table align="center">
-                            <tr>
-                                <td>
-                                <p:outputLabel value="Login :"/> </td>
-                                <td> <p:inputText value="#{edytujUzytkownika.nowyLogin}"/></td>
-                            </tr>
-           
-                            <tr>
-                                <td> <p:outputLabel value="Email"/></td>
-                                <td>     <p:inputText value="#{edytujUzytkownika.nowyEmail}"/></td>
-                            </tr>
-                
-                            <tr>
-                                <td>
-                                <p:outputLabel value="Haslo:"/>
-                                </td>
-                                <td>
-                                <p:calendar value="#{edytujUzytkownika.noweHaslo}"/>
-                                </td>
-                            </tr>
-                
-                            <tr>
-                                <td></td>
-                                <td><br/><br/><p:commandLink value="Edytuj" action="#{edytujUzytkownika.edytujUzytkownika()}"/></td>
-                            </tr>
-                        </table>
-                    </h:form>
+                    <h:form id="form">
+                        <p:dataGrid var="pomiar" value="#{wypiszDane.pobierzArchiwa()}" columns="3" 
+                            rows="12" paginator="true" id="pomiary"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="6,12,16">
+
+                            <f:facet name="header">
+                                Wybierz archiwum do edycji
+                            </f:facet>
+
+                            <p:panel header="#{pomiar.dataString}" style="text-align:center">
+                                <h:panelGrid columns="1" style="width:100%">
+                                    <h:outputText value="#{pomiar.idElement.nazwa}: #{pomiar.wartosc}#{pomiar.idElement.jednostka}" />
+
+                                    <h:link value="Edytuj archiwum" outcome="admin_edycja_pomiarow_wybrany" >
+                                        <f:param name="pomiarid" id="pomiarid" value="#{pomiar.idArchiwumPomiar}"/>
+                                    </h:link>
+                                    <h:commandLink  value="Usun archiwum" action="#{usunArchiwum.usunArchiwum(pomiar)}"/>
+                                </h:panelGrid>
+                            </p:panel>
+
+                        </p:dataGrid>
+                    </h:form>  
                 </p:layoutUnit>
-
-
             </p:layout>
 
         </h:body>
 
     </f:view>
 </html>
+

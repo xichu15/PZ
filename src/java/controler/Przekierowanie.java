@@ -27,7 +27,7 @@ public class Przekierowanie implements Serializable{
     }
 
     public static void setIdZalogowanego(Integer aIdZalogowanego) {
-        idZalogowanego = aIdZalogowanego;
+        Przekierowanie.idZalogowanego = aIdZalogowanego;
     }
     @EJB
     private DataBean db;
@@ -51,6 +51,7 @@ public class Przekierowanie implements Serializable{
                 return "admin_strona_glowna.xhtml?faces-redirect=true";
             case "usergroup":
                 setIdZalogowanego(db.znajdzUzytkownika(getLogin()));
+                System.out.println(db.znajdzUzytkownika(getLogin()));
                 return "user_strona_glowna.xhtml?faces-redirect=true";
             default:
                 return "";
@@ -60,6 +61,10 @@ public class Przekierowanie implements Serializable{
      public String wyloguj(){
          setIdZalogowanego(0);
          return "index.xhtml?faces-redirect=true";
+     }
+     
+     public Integer pobierzId(){
+         return Przekierowanie.idZalogowanego;
      }
              
 

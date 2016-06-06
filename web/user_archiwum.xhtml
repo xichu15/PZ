@@ -32,29 +32,25 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/admin_strona_glowna.xhtml" />
-                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/admin_wybor_stacji.xhtml" />
-                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/admin_kontakt.xhtml" />
-
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/user_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/user_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/user_kontakt.xhtml" />
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="east" size="250" header="Administrator" collapsible="true">
+                <p:layoutUnit position="east" size="250" header="Uzytkownik" collapsible="true">
                     <h:form>
                         <p:menu>
                             <p:submenu label="Menu">
-                                <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
-                                <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
-                                <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
-                                <p:menuitem value="Edycja archiwow" url="http://localhost:8080/PZ/faces/admin_edycja_archiwum.xhtml" />
+                                <p:menuitem value="Przegladaj archiwum" url="http://localhost:8080/PZ/faces/user_archiwum.xhtml" />
+                                <p:menuitem value="Edycja konta" url="http://localhost:8080/PZ/faces/user_edycja_konta.xhtml" />
                                 <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
                             </p:submenu>
                         </p:menu>
                     </h:form>
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center" >
                     <center>
                     <h1>Wybierz stację pomiarową:</h1>
@@ -78,13 +74,12 @@
                             <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
                                 <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
                             </p:gmap><br/>
-                            <h:link value="Przejdz do pomiarów" outcome="dane_pomiarowe" />
+                            <h:link value="Przejdz do pomiarów" outcome="user_dane_archiwalne" />
                         </h:form>
                     </center>
                     
 
                 </p:layoutUnit>
-
 
             </p:layout>
 

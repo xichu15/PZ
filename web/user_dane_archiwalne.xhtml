@@ -14,8 +14,7 @@
             <script src="http://maps.google.com/maps/api/js?sensor=true|false"
             type="text/javascript"></script> 
         </h:head>
-     
-        
+
         <h:body>
 
             <p:layout fullPage="true">
@@ -33,32 +32,51 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/index.xhtml" />
-                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/wybor_stacji.xhtml" />
-                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/kontakt.xhtml" />
-
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/user_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/user_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/user_kontakt.xhtml" />
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="east" size="250" header="Użytkownik" collapsible="true">
+                <p:layoutUnit position="east" size="250" header="Uzytkownik" collapsible="true">
                     <h:form>
-                        <p:growl id="growl" life="2000" />
-                        Nazwa użytkownika:
-                        <p:inputText value="#{przekierowanie.login}" /><br/>
-                        Hasło:<br/>
-                        <p:password value="#{przekierowanie.haslo}" /><br/>
-                        <center>
-                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
-                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
-                        </center>
+                        <p:menu>
+                            <p:submenu label="Menu">
+                                <p:menuitem value="Przegladaj archiwum" url="http://localhost:8080/PZ/faces/user_archiwum.xhtml" />
+                                <p:menuitem value="Edycja konta" url="http://localhost:8080/PZ/faces/user_edycja_konta.xhtml" />
+                                <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
+                            </p:submenu>
+                        </p:menu>
                     </h:form>
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center" >
                     <h1>Dane pomiarowe dla: </h1>
-                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
+                    <h:form>
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Archiwum od "/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{wypiszPomiary.dataOd}"/>
+                                </td>                              
+                                <td>
+                                    <p:outputLabel value=" do "/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{wypiszPomiary.dataDo}"/>
+                                </td>  
+                                <td>
+                                <p:commandButton update="@form" value="Zatwierdź"/>
+                                </td>
+                                
+                            </tr>
+                        </table>
+                        
+
+                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzArchiwum()}" var="pomiar" >
                         <p:column>
                             <div align="center">
                                 <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
@@ -79,15 +97,16 @@
                             </div>
                         </p:column>
                         <f:facet name="header">
-                            Dane z ostatnich godzin:
+                            Dane z wybranych dni
                         </f:facet>
                         
-                    </p:dataTable>
+                    </p:dataTable>            
+                    </h:form>
                     <center>
-                        <h:link outcome="wykresy" value="Zobacz wykresy"/>
+                        <h:link outcome="user_archiwum_wykresy" value="Zobacz wykresy"/>
                     </center>
+                    
                 </p:layoutUnit>
-
 
             </p:layout>
 

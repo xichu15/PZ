@@ -32,49 +32,32 @@
                 <p:layoutUnit position="west" size="250" header="Zwiń menu" collapsible="true">
                     <p:menu>
                         <p:submenu label="Menu">
-                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/admin_strona_glowna.xhtml" />
-                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/admin_wybor_stacji.xhtml" />
-                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/admin_kontakt.xhtml" />
-
+                            <p:menuitem value="Strona główna" url="http://localhost:8080/PZ/faces/user_strona_glowna.xhtml" />
+                            <p:menuitem value="Wybór stacji" url="http://localhost:8080/PZ/faces/user_wybor_stacji.xhtml" />
+                            <p:menuitem value="Kontakt" url="http://localhost:8080/PZ/faces/user_kontakt.xhtml" />
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
 
-                <p:layoutUnit position="east" size="250" header="Administrator" collapsible="true">
+                <p:layoutUnit position="east" size="250" header="Uzytkownik" collapsible="true">
                     <h:form>
                         <p:menu>
                             <p:submenu label="Menu">
-                                <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
-                                <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
-                                <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
-                                <p:menuitem value="Edycja archiwow" url="http://localhost:8080/PZ/faces/admin_edycja_archiwum.xhtml" />
+                                <p:menuitem value="Przegladaj archiwum" url="http://localhost:8080/PZ/faces/user_archiwum.xhtml" />
+                                <p:menuitem value="Edycja konta" url="http://localhost:8080/PZ/faces/user_edycja_konta.xhtml" />
                                 <p:menuitem value="Wyloguj" action="#{przekierowanie.wyloguj()}" />
                             </p:submenu>
                         </p:menu>
                     </h:form>
                 </p:layoutUnit>
-
                 <p:layoutUnit position="center" >
-                    <h1 align="center">Zapraszamy do kontaktu</h1>
-                        <Table align="center"> 
-                            <tr>
-                                <td>Numer telefonu:</td>
-                                <td>666-666-666<br/></td>
-                            </tr>
-                            <tr>
-                                <td>Siedziba:<br/></td>
-                                <td>
-                                Politechnika Krakowska im. Tadeusza Kościuszki<br/>
-                                ul. Warszawska 24<br/>
-                                Kraków<br/></td>
-                            </tr>
-                            <tr>
-                                <td> E-mail: </td>
-                                <td>informatykapk2013@gmail.com</td>
-                            </tr>
-                        </Table>
+                    <h1>Wykresy archiwalne dla: </h1>
+
+                        <p:chart type="line" model="#{rysujWykresyArchiwum.temperatura}" style="height:300px;"/>
+
                 </p:layoutUnit>
+
             </p:layout>
 
         </h:body>
