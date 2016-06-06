@@ -16,7 +16,6 @@ import javax.faces.view.ViewScoped;
 import model.Archiwumpomiar;
 import model.Czujnik;
 import model.Element;
-import model.Gatunekchmur;
 import model.Pomiar;
 import model.Rodzajchmur;
 import model.Stacja;
@@ -39,7 +38,6 @@ public class WypiszDane implements Serializable{
     private List<Element> elementy;
     private List<Czujnik> czujniki;
     private List<Rodzajchmur> rodzaje;
-    private List<Gatunekchmur> gatunki;
     private List<Archiwumpomiar> archiwum;
     
     public WypiszDane() {
@@ -109,17 +107,6 @@ public class WypiszDane implements Serializable{
             e.printStackTrace();
         }
         return rodzaje;
-    }
-
-    public List<Gatunekchmur> pobierzGatunkiChmur(){
-        try{
-            this.gatunki = db.pobierzGatunkiChmur();
-        }
-        catch(Exception e){
-            logger.warning("Nie udalo sie pobrac gatunkow chmur");
-            e.printStackTrace();
-        }
-        return gatunki;
     }
 
     public List<Archiwumpomiar> pobierzArchiwa(){

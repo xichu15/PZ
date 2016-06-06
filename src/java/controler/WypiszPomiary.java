@@ -99,7 +99,6 @@ public class WypiszPomiary implements Serializable{
     }
 
     public Date getDataDo() {
-        System.out.println("Jestem w seterze!");
         RysujWykresyArchiwum rwa = new RysujWykresyArchiwum();
         rwa.setDataDo(dataDo);
         return dataDo;

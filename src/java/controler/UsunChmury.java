@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
-import model.Gatunekchmur;
 import model.Rodzajchmur;
 
 @Named(value = "usunChmury")
@@ -29,15 +28,4 @@ public class UsunChmury implements Serializable{
             e.printStackTrace();
         }        
     }  
-    
-    public void usunGatunekChmur(Gatunekchmur usuwany) {
-        try{
-            db.usunGatunekChmur(usuwany);
-        }
-        catch(Exception e)
-        {
-            logger.warning("Nie udało się usunac gatunku chmur");
-            e.printStackTrace();
-        }        
-    }   
 }

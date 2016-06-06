@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -16,7 +15,6 @@ import javax.persistence.PersistenceContext;
 import model.Archiwumpomiar;
 import model.Czujnik;
 import model.Element;
-import model.Gatunekchmur;
 import model.Grupa;
 import model.Pomiar;
 import model.Rodzajchmur;
@@ -80,17 +78,6 @@ public class DataBean {
         catch(Exception e){
             throw new EJBException(e.getMessage());
         }    
-    }
-
-    public void dodajGatunekChmur(String gatunekChmur) {
-        try{
-            Gatunekchmur dodawany = new Gatunekchmur(Integer.valueOf(1), gatunekChmur);
-            logger.info("Dodaje gatunek chmur: " + gatunekChmur);
-            em.persist(dodawany);
-        }
-        catch(Exception e){
-            throw new EJBException(e.getMessage());
-        } 
     }
 
     public void dodajElement(String nazwa, String jednostka) {
@@ -203,16 +190,6 @@ public class DataBean {
     public void usunRodzajChmur(Rodzajchmur usuwany) {
         try{
             logger.info("Usuwanie rodzaju chmur: " + usuwany.getNazwa());
-            em.remove(em.merge(usuwany));
-        }
-        catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }
-    }
-
-    public void usunGatunekChmur(Gatunekchmur usuwany) {
-        try{
-            logger.info("Usuwanie gatunku chmur: " + usuwany.getNazwa());
             em.remove(em.merge(usuwany));
         }
         catch(Exception e){
@@ -342,20 +319,6 @@ public class DataBean {
         }
     }
 
-    public void edytujGatunekChmury(Integer idGatunekChmur, String nowyGatunekChmur) {
-        try{
-            logger.info("Szukanie gatunku chmur id: " + idGatunekChmur);
-            Gatunekchmur gatunekChmur = em.find(Gatunekchmur.class, idGatunekChmur);
-            logger.info("Edycja gatunku chmur: " + gatunekChmur.getNazwa());
-            if(nowyGatunekChmur.isEmpty()){
-                gatunekChmur.setNazwa(nowyGatunekChmur);
-            }
-        }
-        catch(Exception e){
-            throw new EJBException(e.getMessage());
-        }     
-    }
-
     public void edytujArchiwum(Integer idPomiar, double nowaWartosc, Date nowaDataArchiwum, Date nowyCzasArchiwum) {
         try{
             logger.info("Szukanie archiwum id: " + idPomiar);
@@ -424,6 +387,7 @@ public class DataBean {
             catch(Exception e){
                 throw new EJBException(e.getMessage());
             }  
+            Collections.sort(pomiaryStacji, Pomiar.pomiarPorownajDaty);
         return pomiaryStacji;
     }    
 
@@ -475,18 +439,6 @@ public class DataBean {
         return rodzajeChmur;
     }
 
-    public List<Gatunekchmur> pobierzGatunkiChmur() {
-        List<Gatunekchmur> gatunkiChmur = null;
-            try{
-                logger.info("Pobieram liste gatunkow chmur");
-                gatunkiChmur = (List<Gatunekchmur>) em.createNamedQuery("Gatunekchmur.findAll").getResultList();
-            }
-            catch(Exception e){
-                throw new EJBException(e.getMessage());
-            }
-        return gatunkiChmur;
-    }
-
     public List<Archiwumpomiar> pobierzArchiwa() {
         List<Archiwumpomiar> archiwa = null;
             try{
@@ -528,6 +480,7 @@ public class DataBean {
             for(Archiwumpomiar pomiar : archiwaStacji){
                 System.out.println("Znalezione id: " + pomiar.getIdArchiwumPomiar());
             }
+            Collections.sort(archiwaStacji, Archiwumpomiar.pomiarPorownajDaty);
         return archiwaStacji;        
     }
 

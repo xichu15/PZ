@@ -28,16 +28,6 @@ public class DodajChmury implements Serializable{
             e.printStackTrace();
         }
     }
-    
-    public void dodajNowyGatunekChmur(){
-        try{
-            db.dodajGatunekChmur(getGatunekChmur());
-        }
-        catch(Exception e){
-            logger.warning("Nie udalo sie dodac gatunku chmur");
-            e.printStackTrace();
-        }
-    } 
 
     public String getGatunekChmur() {
         return gatunekChmur;

@@ -7,6 +7,7 @@ package controler;
 
 import ejb.DataBean;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,6 +19,7 @@ import model.Archiwumpomiar;
 import model.Pomiar;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.ChartSeries;
@@ -44,7 +46,7 @@ public class RysujWykresy implements Serializable{
     private LineChartModel wilgotnosc;
     private LineChartModel cisnienie;
     private LineChartModel wiatr;
-    private LineChartModel opady;
+    private BarChartModel opady;
        
     @PostConstruct
     public void init() {
@@ -57,6 +59,7 @@ public class RysujWykresy implements Serializable{
 
     private void createLineModels() {
         this.pomiary = db.pobierzPomiary(idStacji);
+        Collections.reverse(pomiary);
         
         temperatura = initTemperatura();
         getTemperatura().setTitle("Temperatura");
@@ -182,13 +185,13 @@ public class RysujWykresy implements Serializable{
         return model;
     }    
 
-    private LineChartModel initOpady() {
+    private BarChartModel initOpady() {
         
-        LineChartModel model = new LineChartModel();
-        LineChartSeries sOpady = new LineChartSeries();
+        BarChartModel model = new BarChartModel();
+        ChartSeries sOpady = new ChartSeries();
         sOpady.setLabel("Ilość opadów");
         
-        for(Archiwumpomiar p : archiwa){
+        for(Pomiar p : pomiary){
             if(p.getIdElement().getNazwa().equals("Ilosc opadow"))
                 sOpady.set(p.getDataString(), p.getWartosc());
         }
@@ -279,7 +282,7 @@ public class RysujWykresy implements Serializable{
         return wiatr;
     }
 
-    public LineChartModel getOpady() {
+    public BarChartModel getOpady() {
         return opady;
     }
     
