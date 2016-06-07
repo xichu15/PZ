@@ -52,7 +52,7 @@
                     </h:form>
                 </p:layoutUnit>
                <p:layoutUnit position="center" >
-                    <h1 align="center">Rejestracja</h1>
+                    <h1 align="center">Edycja konta</h1>
                     <h:form>
                         <center>
                         <p:messages id="messages" showDetail="true" autoUpdate="true" />
@@ -72,7 +72,7 @@
                             <p:inputText id="email" value="#{edytujUzytkownika.nowyEmail}" label="email"/>  
                         </h:panelGrid>
  
-                        <p:commandButton update="matchGrid" value="Zarejestruj" action="#{edytujUzytkownika.edytujUzytkownika(przekierowanie.pobierzId())}"/>
+                        <p:commandButton update="matchGrid" value="Zmień" action="#{edytujUzytkownika.edytujUzytkownika(przekierowanie.pobierzId())}"/>
                         </center>
                     </h:form>  
                 </p:layoutUnit>

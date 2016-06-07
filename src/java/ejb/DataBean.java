@@ -845,16 +845,9 @@ public class DataBean {
         Random losowanie = new Random();     
         
         Element element = znajdzElement("Opad");
-        List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
         
-        Integer ilosc = 0;
-        double suma = 0;
-        for(Pomiar p : ostatniePomiary){
-            if(p.getIdElement().getNazwa().equals("Opad"))
-                ilosc += 1;
-                suma += p.getWartosc();
-        }
-        double opady = suma/ilosc;
+        double opady = losowanie.nextInt(2)*0.1;
+        System.out.println("Wartosc opadów: " + opady);
 
         switch(rodzajChmur.getNazwa()){
             case "Cirrus":
@@ -888,10 +881,10 @@ public class DataBean {
                 opady += round(losowanie.nextInt(11) * 0.1 + 0.5, 2);
                 break;    
         }
-        
+        System.out.println("Wartosc opadów: " + opady);
         if(opady < 0)
             opady = 0;
-
+        System.out.println("Wartosc opadów: " + opady);
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), opady, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
         em.persist(pomiar);
         
