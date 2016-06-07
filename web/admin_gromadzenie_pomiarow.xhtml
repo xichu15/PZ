@@ -14,8 +14,7 @@
             <script src="http://maps.google.com/maps/api/js?sensor=true|false"
             type="text/javascript"></script> 
         </h:head>
-     
-        
+
         <h:body>
 
             <p:layout fullPage="true">
@@ -58,33 +57,23 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
-                                <h:outputLabel value="#{pomiar.dataString} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
-                                <h:outputLabel value="#{pomiar.wartosc} "/>
-                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
-                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
-                            </div>
-                        </p:column>
-                        <f:facet name="header">
-                            Dane z ostatnich godzin:
-                        </f:facet>
-                        
-                    </p:dataTable>
                     <center>
-                        <h:link outcome="admin_wykresy" value="Zobacz wykresy"/>
+                    <h1>Wybierz stację pomiarową:</h1>
+                    <h4>Wybierz, zatwierdź i przejdź</h4>
+                    <br/>
+                    <h:form id="form">
+                        <h:panelGrid columns="3" style="margin-bottom:20px" cellpadding="5">
+                            <p:outputLabel for="station" value="Wybór: " />
+                            <p:selectOneMenu id="station" value="#{generujPomiary.idStacji}" effect="fold">
+                                <f:selectItem itemLabel="Wybierz miasto" itemValue="" />
+                                <f:selectItems var="stacja" itemLabel="#{stacja.nazwa}" itemValue="#{stacja.idStacja}" value="#{wypiszDane.pobierzStacje()}" />
+                            </p:selectOneMenu>
+                            <h:commandButton value="Zatwierdź" action="#{generujPomiary.wybierzStacje()}" ></h:commandButton>
+                        </h:panelGrid>
+                    </h:form>
+                    </center>
+                    <center>
+                        <h:link value="Zgromadz pomiary" outcome="admin_gromadzenie_pomiarow_wybrane" />          
                     </center>
                 </p:layoutUnit>
 

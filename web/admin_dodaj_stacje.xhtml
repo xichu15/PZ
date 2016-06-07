@@ -58,34 +58,35 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
-                                <h:outputLabel value="#{pomiar.dataString} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
-                                <h:outputLabel value="#{pomiar.wartosc} "/>
-                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
-                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
-                            </div>
-                        </p:column>
-                        <f:facet name="header">
-                            Dane z ostatnich godzin:
-                        </f:facet>
+                    <h1 align="center">Dodawanie stacji</h1>
+                    <h:form>
+                        <center>
+                        <p:messages id="messages" showDetail="true" autoUpdate="true" />
+
+                        <h:panelGrid columns="2" id="matchGrid" cellpadding="5">     
+                            <h:outputLabel for="nazwa" value="Nazwa *" />
+                            <p:inputText id="nazwa" value="#{dodajStacje.nazwa}" label="nazwa" required="true" />                          
+
+                            <h:outputLabel for="strefaCzasowa" value="Strefa czasowa: *" />
+                            <p:inputText id="strefaCzasowa" value="#{dodajStacje.strefaCzasowa}" label="strefaCzasowa" required="true" />
+
+                            <h:outputLabel for="przesuniecie" value="Przesunięcie: *" />
+                            <p:inputText id="przesuniecie" value="#{dodajStacje.przesuniecie}" label="przesuniecie" required="true" />
+                            
+                            <h:outputLabel for="dlugoscGeograficzna" value="Długość geograficzna: *" />
+                            <p:inputText id="dlugoscGeograficzna" value="#{dodajStacje.dlugoscGeograficzna}" label="dlugoscGeograficzna" required="true" />  
                         
-                    </p:dataTable>
-                    <center>
-                        <h:link outcome="admin_wykresy" value="Zobacz wykresy"/>
-                    </center>
+                            <h:outputLabel for="szerokoscGeograficzna" value="Szerokość geograficzna: *" />
+                            <p:inputText id="szerokoscGeograficzna" value="#{dodajStacje.szerokoscGeograficzna}" label="szerokoscGeograficzna" required="true" /> 
+                        
+                            <h:outputLabel for="wysokoscNpm" value="Wysokosc npm: *" />
+                            <p:inputText id="wysokoscNpm" value="#{dodajStacje.wysokoscNpm}" label="wysokoscNpm" required="true" /> 
+                        
+                        </h:panelGrid>
+ 
+                        <p:commandButton update="matchGrid" value="Dodaj" action="#{dodajStacje.dodajNowaStacje()}"/>
+                        </center>
+                    </h:form>  
                 </p:layoutUnit>
 
 

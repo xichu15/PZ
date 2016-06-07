@@ -58,7 +58,13 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
+                    <h1>Dane pomiarowe dla: </h1>
+                    <h:form id="form">
+                        <center>
+                            <p:commandButton value="Sporządź pomiary" action="#{generujPomiary.generujPomiary()}" update="@form"/> 
+                        </center>
+                        <br/>
+                    <p:dataTable id="pomiary" value="#{generujPomiary.pobierzPomiary()}" var="pomiar" >
                         <p:column>
                             <div align="center">
                                 <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
@@ -83,9 +89,8 @@
                         </f:facet>
                         
                     </p:dataTable>
-                    <center>
-                        <h:link outcome="admin_wykresy" value="Zobacz wykresy"/>
-                    </center>
+                    
+                    </h:form>
                 </p:layoutUnit>
 
 

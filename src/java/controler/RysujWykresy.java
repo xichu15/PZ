@@ -46,7 +46,7 @@ public class RysujWykresy implements Serializable{
     private LineChartModel wilgotnosc;
     private LineChartModel cisnienie;
     private LineChartModel wiatr;
-    private BarChartModel opady;
+    private LineChartModel opady;
        
     @PostConstruct
     public void init() {
@@ -107,9 +107,10 @@ public class RysujWykresy implements Serializable{
         getOpady().setShowPointLabels(true);
         getOpady().getAxes().put(AxisType.X, new CategoryAxis("Data/czas"));
         yAxis = getOpady().getAxis(AxisType.Y);
-        yAxis.setLabel("Wysokość opadów[mm]");
+        yAxis.setLabel("Ilość opadów[mm]");
         yAxis.setMin(0);
-        yAxis.setMax(15);
+        yAxis.setMax(3);
+
     }
      
     private LineChartModel initTemperatura() {
@@ -185,10 +186,10 @@ public class RysujWykresy implements Serializable{
         return model;
     }    
 
-    private BarChartModel initOpady() {
+    private LineChartModel initOpady() {
         
-        BarChartModel model = new BarChartModel();
-        ChartSeries sOpady = new ChartSeries();
+        LineChartModel model = new LineChartModel();
+        LineChartSeries sOpady = new LineChartSeries();
         sOpady.setLabel("Ilość opadów");
         
         for(Pomiar p : pomiary){
@@ -282,7 +283,7 @@ public class RysujWykresy implements Serializable{
         return wiatr;
     }
 
-    public BarChartModel getOpady() {
+    public LineChartModel getOpady() {
         return opady;
     }
     

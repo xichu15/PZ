@@ -43,6 +43,7 @@
                     <h:form>
                         <p:menu>
                             <p:submenu label="Menu">
+                                <p:menuitem value="Gromadź pomiary" url="http://localhost:8080/PZ/faces/admin_gromadzenie_pomiarow.xhtml" />
                                 <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
                                 <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
                                 <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
@@ -54,6 +55,8 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
+                    <h:link value="Dodaj stacje" outcome="admin_dodaj_stacje" />
+                    <br/>
                     <h:form id="form">
                         <p:dataGrid var="stacja" value="#{wypiszDane.pobierzStacje()}" columns="3" 
                             rows="12" paginator="true" id="stacje"

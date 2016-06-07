@@ -45,6 +45,7 @@
                     <h:form>
                         <p:menu>
                             <p:submenu label="Menu">
+                                <p:menuitem value="Gromadź pomiary" url="http://localhost:8080/PZ/faces/admin_gromadzenie_pomiarow.xhtml" />
                                 <p:menuitem value="Edycja stacji" url="http://localhost:8080/PZ/faces/admin_edycja_stacji.xhtml" />
                                 <p:menuitem value="Edycja pomiarów" url="http://localhost:8080/PZ/faces/admin_edycja_pomiarow.xhtml" />
                                 <p:menuitem value="Edycja użytkowników" url="http://localhost:8080/PZ/faces/admin_edycja_uzytkownikow.xhtml" />
@@ -78,7 +79,7 @@
                             <p:gmap id="gmap" center="52.069318,19.480300" zoom="6" type="HYBRID" model="#{markerSelectionView.simpleModel}"  style="width:500px;height:500px;">
                                 <p:ajax event="overlaySelect" listener="#{markerSelectionView.onMarkerSelect}" update="growl" />
                             </p:gmap><br/>
-                            <h:link value="Przejdz do pomiarów" outcome="dane_pomiarowe" />
+                            <h:link value="Przejdz do pomiarów" outcome="admin_dane_pomiarowe" />
                         </h:form>
                     </center>
                     

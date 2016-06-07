@@ -45,15 +45,13 @@
                     <h:form>
                         <p:growl id="growl" life="2000" />
                         Nazwa użytkownika:
-                        <p:inputText /><br/>
+                        <p:inputText value="#{przekierowanie.login}" /><br/>
                         Hasło:<br/>
-                        <p:inputText /><br/>
-
-                        <p:commandButton value="Zaloguj" id="ajax" update="growl" actionListener="#{buttonView.buttonAction}" styleClass="ui-priority-primary" />
-
-
-
-
+                        <p:password value="#{przekierowanie.haslo}" /><br/>
+                        <center>
+                            <p:commandLink value="Zaloguj" action="#{przekierowanie.zaloguj()}"/><br/>
+                            <p:commandLink value="Zarejestruj" action="rejestracja?faces-redirect=true"/>
+                        </center>
                     </h:form>
                 </p:layoutUnit>
 

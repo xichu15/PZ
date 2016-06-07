@@ -9,6 +9,7 @@ import ejb.DataBean;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -28,14 +29,32 @@ public class GenerujPomiary implements Serializable{
     private DataBean db;
     
     private double wartosc;
-    private Integer idStacji;
+    private static Integer idStacji = 0;
     private Date dataPomiaru;
     private Integer godzinaPomiaru;
     private Integer minutaPomiaru;
+    private List<Pomiar> pomiary;
 
     public GenerujPomiary() {}
     
+    public List<Pomiar> pobierzPomiary(){
+        System.out.println("Posiadane id: " + idStacji);
+        try{
+            this.pomiary = db.pobierzPomiary(getIdStacji());
+        }
+        catch(Exception e){
+            logger.warning("Nie udalo sie pobrac pomiarow dla stacji");
+            e.printStackTrace();
+        }
+        return pomiary;
+    }      
+    
+    public void wybierzStacje(){
+        System.out.println("Nasze idStacji: " + idStacji);
+    }    
+    
     public void generujPomiary(){
+        System.out.println("Generuj pomiary... idStacji: " + getIdStacji());
         Calendar aktualnyCzas = Calendar.getInstance();
         Rodzajchmur rodzajChmur = null;
         Pomiar cisnienie = null;
@@ -86,6 +105,8 @@ public class GenerujPomiary implements Serializable{
             e.printStackTrace();
         }         
     }    
+    
+
 
     public double getWartosc() {
         return wartosc;

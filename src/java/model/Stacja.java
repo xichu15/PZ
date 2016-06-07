@@ -74,7 +74,7 @@ public class Stacja implements Serializable {
         this.idStacja = idStacja;
     }
 
-    public Stacja(Integer idStacja, String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm, ArrayList<Czujnik> listaCzujnikow) {
+    public Stacja(Integer idStacja, String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm, List<Czujnik> listaCzujnikow) {
         this.idStacja = idStacja;
         this.nazwa = nazwa;
         this.strefaCzasowa = strefaCzasowa;
@@ -82,7 +82,13 @@ public class Stacja implements Serializable {
         this.dlugoscGeograficzna = dlugoscGeograficzna;
         this.szerokoscGeograficzna = szerokoscGeograficzna;
         this.wysokoscNpm = wysokoscNpm;
-        this.czujnikList.addAll(listaCzujnikow);
+        System.out.println("Dodaje stacje do czujnikow");
+        for(Czujnik c : listaCzujnikow){
+            c.setIdStacja(this);
+            System.out.println("Dodaje idiki do stacji");
+
+        }
+        this.czujnikList = listaCzujnikow;
     }
 
     public Integer getIdStacja() {

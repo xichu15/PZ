@@ -57,9 +57,12 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <h1>Wykresy z ostatnich 24h dla: </h1>
 
-                    <p:chart type="line" model="#{rysujWykresy.temperatura}" style="height:300px;"/>
+                    <p:chart type="line" model="#{rysujWykresy.temperatura}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.cisnienie}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.wiatr}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.wilgotnosc}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.opady}" style="height:300px;"/><br/>
 
                 </p:layoutUnit>
 

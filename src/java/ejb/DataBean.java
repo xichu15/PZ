@@ -17,6 +17,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import static jdk.nashorn.internal.objects.NativeMath.round;
 import model.Archiwumpomiar;
 import model.Czujnik;
 import model.Element;
@@ -713,10 +714,12 @@ public class DataBean {
         szanse.put("Cumulus", 10);
         szanse.put("Cumulonimbus", 10);
 
+        System.out.println("Generuj chmury... idStacji: " + idStacji);
         List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
         for(Pomiar p : ostatniePomiary)
             szanse.replace(p.getIdRodzajChmur().getNazwa(), szanse.get(p.getIdRodzajChmur().getNazwa())+1);
 
+        System.out.println("Pobralem pomiary dla chmur");
         HashMap<String, Integer> przedzialy = new HashMap<>();
         Integer dolnaGranica = 1;
         
@@ -740,7 +743,7 @@ public class DataBean {
             if(wylosowanaLiczba >= (Integer)mentry.getValue())
                  wybranaChmura = (String)mentry.getKey();
         }
-        
+        System.out.println("Wybrana chmura: " + wybranaChmura);
         return znajdzChmury(wybranaChmura);
     }
 
@@ -760,6 +763,7 @@ public class DataBean {
         
         cisnienie -= 12.0 * stacja.getWysokoscNpm()/100;
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), cisnienie, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        em.persist(pomiar);
         
         return pomiar;
     }
@@ -825,6 +829,7 @@ public class DataBean {
         }
 
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), wiatr, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        em.persist(pomiar);
         
         return pomiar;
     }
@@ -837,57 +842,58 @@ public class DataBean {
                 czujnik = c;
         }
         
-        Random losowanie = new Random();
-        double opady = losowanie.nextInt(11) + 9;       
+        Random losowanie = new Random();     
         
-        Element element = znajdzElement("Opady");
+        Element element = znajdzElement("Opad");
         List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
         
         Integer ilosc = 0;
         double suma = 0;
         for(Pomiar p : ostatniePomiary){
-            if(p.getIdElement().getNazwa().equals("Opady"))
+            if(p.getIdElement().getNazwa().equals("Opad"))
                 ilosc += 1;
                 suma += p.getWartosc();
         }
-        opady = suma/ilosc;
+        double opady = suma/ilosc;
 
-
-        
         switch(rodzajChmur.getNazwa()){
             case "Cirrus":
                 opady = 0;
                 break;
             case "Cirrocumulus":
-                opady = 0;;
+                opady = 0;
                 break;
             case "Cirrostratus":
-                opady = 0;;
+                opady = 0;
                 break;
             case "Altocumulus":
-                opady = 0;;
+                opady = 0;
                 break;
             case "Altostratus":
-                opady += losowanie.nextInt(3) * 0.1 - 0.1;
+                opady += round(losowanie.nextInt(3) * 0.1 - 0.1, 2);
                 break;
             case "Nimbostratus":
-                opady += losowanie.nextInt(4) * 0.1;
+                opady += round(losowanie.nextInt(4) * 0.1, 2);
                 break;
             case "Stratocumulus":
-                opady += losowanie.nextInt(2) * 0.1;
+                opady += round(losowanie.nextInt(2) * 0.1, 2);
                 break;
             case "Stratus":
-                opady += losowanie.nextInt(3) * 0.1;
+                opady += round(losowanie.nextInt(3) * 0.1, 2);
                 break;
             case "Cumulus":
                 opady = 0;
                 break;    
             case "Cumulonimbus":
-                opady += losowanie.nextInt(11) * 0.1 + 0.5;
+                opady += round(losowanie.nextInt(11) * 0.1 + 0.5, 2);
                 break;    
         }
+        
+        if(opady < 0)
+            opady = 0;
 
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), opady, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        em.persist(pomiar);
         
         return pomiar;
     }
@@ -945,6 +951,8 @@ public class DataBean {
         
         temperatura -= 0.65 * stacja.getWysokoscNpm()/100;
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), temperatura, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        em.persist(pomiar);
+        
         Pomiar pomiarOdczuwalny;
         
         element = znajdzElement("Temperatura odczuwalna");
@@ -959,9 +967,10 @@ public class DataBean {
             temperatura += losowanie.nextInt(3) - 1;
         }
         
-        temperatura -= wiatr.getWartosc()/4;
+        temperatura -= round(wiatr.getWartosc()/4, 2);
         pomiarOdczuwalny = new Pomiar(Integer.valueOf(1), temperatura, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
-
+        em.persist(pomiarOdczuwalny);
+        
         return pomiar;
     }
 
@@ -979,7 +988,7 @@ public class DataBean {
         Random losowanie = new Random();
         double punktyRosy = losowanie.nextInt(41);
         double roznica = temperatura.getWartosc() - punktyRosy;
-        double wilgotnosc = 0;
+        double wilgotnosc;
         
         if(roznica < 1.5)
             wilgotnosc = 100;
@@ -1003,12 +1012,8 @@ public class DataBean {
             wilgotnosc = 10;
         
         Pomiar pomiar = new Pomiar(Integer.valueOf(1), wilgotnosc, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        em.persist(pomiar);
         
         return pomiar;
     }
-
-
-
-
-
 }

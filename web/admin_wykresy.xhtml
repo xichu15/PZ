@@ -58,34 +58,14 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="center" >
-                    <p:dataTable id="pomiary" value="#{wypiszPomiary.pobierzPomiary()}" var="pomiar" >
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Data pomiaru"/></f:facet>
-                                <h:outputLabel value="#{pomiar.dataString} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Wartosc"/></f:facet>
-                                <h:outputLabel value="#{pomiar.wartosc} "/>
-                                <h:outputLabel value="#{pomiar.idElement.jednostka} "/>
-                            </div>
-                        </p:column>
-                        <p:column>
-                            <div align="center">
-                                <f:facet name="header"><h:outputLabel value="Element"/></f:facet>
-                                <h:outputLabel value="#{pomiar.idElement.nazwa} "/>
-                            </div>
-                        </p:column>
-                        <f:facet name="header">
-                            Dane z ostatnich godzin:
-                        </f:facet>
-                        
-                    </p:dataTable>
-                    <center>
-                        <h:link outcome="admin_wykresy" value="Zobacz wykresy"/>
-                    </center>
+                    <h1>Wykresy z ostatnich 24h dla: </h1>
+
+                    <p:chart type="line" model="#{rysujWykresy.temperatura}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.cisnienie}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.wiatr}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.wilgotnosc}" style="height:300px;"/><br/>
+                    <p:chart type="line" model="#{rysujWykresy.opady}" style="height:300px;"/><br/>
+
                 </p:layoutUnit>
 
 
