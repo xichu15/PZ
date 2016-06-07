@@ -838,78 +838,171 @@ public class DataBean {
         }
         
         Random losowanie = new Random();
-        double wiatr = losowanie.nextInt(11) + 9;       
+        double opady = losowanie.nextInt(11) + 9;       
         
-        Element element = znajdzElement("Predkosc wiatru");
+        Element element = znajdzElement("Opady");
         List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
         
         Integer ilosc = 0;
         double suma = 0;
         for(Pomiar p : ostatniePomiary){
-            if(p.getIdElement().getNazwa().equals("Cisnienie"))
+            if(p.getIdElement().getNazwa().equals("Opady"))
                 ilosc += 1;
                 suma += p.getWartosc();
         }
-        double srednieCisnienie = suma/ilosc;
-        if(cisnienie.getWartosc() > srednieCisnienie)
-            wiatr -= losowanie.nextInt(3) + 1;
-        else
-            wiatr += losowanie.nextInt(3) + 1;
+        opady = suma/ilosc;
+
+
         
         switch(rodzajChmur.getNazwa()){
             case "Cirrus":
-                wiatr -= losowanie.nextInt(2) + 1;
+                opady = 0;
                 break;
             case "Cirrocumulus":
-                wiatr += losowanie.nextInt(4) + 1;
+                opady = 0;;
                 break;
             case "Cirrostratus":
-                wiatr += losowanie.nextInt(3) - 1;
+                opady = 0;;
                 break;
             case "Altocumulus":
-                wiatr += losowanie.nextInt(4) + 1;
+                opady = 0;;
                 break;
             case "Altostratus":
-                wiatr += losowanie.nextInt(3) - 1;
+                opady += losowanie.nextInt(3) * 0.1 - 0.1;
                 break;
             case "Nimbostratus":
-                wiatr -= losowanie.nextInt(3) + 1;
+                opady += losowanie.nextInt(4) * 0.1;
                 break;
             case "Stratocumulus":
-                wiatr += losowanie.nextInt(2) - 1;
+                opady += losowanie.nextInt(2) * 0.1;
                 break;
             case "Stratus":
-                wiatr -= losowanie.nextInt(3) + 1;
+                opady += losowanie.nextInt(3) * 0.1;
                 break;
             case "Cumulus":
-                wiatr += losowanie.nextInt(5) - 2;
+                opady = 0;
                 break;    
             case "Cumulonimbus":
-                wiatr += losowanie.nextInt(7) + 2;
+                opady += losowanie.nextInt(11) * 0.1 + 0.5;
                 break;    
         }
 
-        Pomiar pomiar = new Pomiar(Integer.valueOf(1), wiatr, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), opady, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
         
         return pomiar;
     }
     
-    public Pomiar generujTemperature(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar cisnienie, Pomiar wiatr) {
+    public Pomiar generujTemperature(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar cisnienie, Pomiar wiatr, Pomiar opady) {
         Stacja stacja = em.find(Stacja.class, idStacji);
         Czujnik czujnik = null;
         for(Czujnik c : stacja.getCzujnikList()){
-            if(c.getNazwa().equals("Barometr"))
+            if(c.getNazwa().equals("Termometr"))
                 czujnik = c;
         }
         
-        Element element = znajdzElement("Cisnienie");
+        Random losowanie = new Random();
+        Element element = znajdzElement("Temperatura rzeczywista");
+        double temperatura = 0;
+        
+        switch(aktualnyCzas.get(Calendar.MONTH)){
+            case 0:
+                temperatura = losowanie.nextInt(21) - 10;
+                break;
+            case 1:
+                temperatura = losowanie.nextInt(10) - 5;
+                break;
+            case 2:
+                temperatura = losowanie.nextInt(11);
+                break;
+            case 3:
+                temperatura = losowanie.nextInt(15) + 5;
+                break;
+            case 4:
+                temperatura = losowanie.nextInt(10) + 13;
+                break;
+            case 5:
+                temperatura = losowanie.nextInt(15) + 15;
+                break;
+            case 6:
+                temperatura = losowanie.nextInt(15) + 17;
+                break;
+            case 7:
+                temperatura = losowanie.nextInt(15) + 17;
+                break;
+            case 8:
+                temperatura = losowanie.nextInt(14) + 10;
+                break;
+            case 9:
+                temperatura = losowanie.nextInt(11) + 8;
+                break;
+            case 10:
+                temperatura = losowanie.nextInt(16);
+                break;
+            case 11:
+                temperatura = losowanie.nextInt(15) - 5;
+                break;               
+        }
+        
+        temperatura -= 0.65 * stacja.getWysokoscNpm()/100;
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), temperatura, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        Pomiar pomiarOdczuwalny;
+        
+        element = znajdzElement("Temperatura odczuwalna");
+        
+        if(aktualnyCzas.get(Calendar.HOUR_OF_DAY) > 0 && aktualnyCzas.get(Calendar.HOUR_OF_DAY) <= 6){
+            temperatura -= losowanie.nextInt(4) + 3;
+        } else if(aktualnyCzas.get(Calendar.HOUR_OF_DAY) > 6 && aktualnyCzas.get(Calendar.HOUR_OF_DAY) <= 12 ){
+            temperatura -= losowanie.nextInt(3) + 1;
+        } else if(aktualnyCzas.get(Calendar.HOUR_OF_DAY) > 12 && aktualnyCzas.get(Calendar.HOUR_OF_DAY) <= 18 ){
+            temperatura += losowanie.nextInt(3) + 1;
+        } else{            
+            temperatura += losowanie.nextInt(3) - 1;
+        }
+        
+        temperatura -= wiatr.getWartosc()/4;
+        pomiarOdczuwalny = new Pomiar(Integer.valueOf(1), temperatura, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+
+        return pomiar;
+    }
+
+    public Pomiar generujWilgotnosc(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar temperatura) {
+        Stacja stacja = em.find(Stacja.class, idStacji);
+        Czujnik czujnik = null;
+        for(Czujnik c : stacja.getCzujnikList()){
+            if(c.getNazwa().equals("Higrometr"))
+                czujnik = c;
+        }
+        
+        Element element = znajdzElement("Wilgotnosc");
         
         
         Random losowanie = new Random();
-        double cisnienie = losowanie.nextInt(31) + 1010;
+        double punktyRosy = losowanie.nextInt(41);
+        double roznica = temperatura.getWartosc() - punktyRosy;
+        double wilgotnosc = 0;
         
-        cisnienie -= 12.0 * stacja.getWysokoscNpm()/100;
-        Pomiar pomiar = new Pomiar(Integer.valueOf(1), cisnienie, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        if(roznica < 1.5)
+            wilgotnosc = 100;
+        else if(roznica < 3)
+            wilgotnosc = 90;
+        else if(roznica < 5)
+            wilgotnosc = 80;
+        else if(roznica < 7)
+            wilgotnosc = 70;        
+        else if(roznica < 10)
+            wilgotnosc = 60;
+        else if(roznica < 13)
+            wilgotnosc = 50;
+        else if(roznica < 18)
+            wilgotnosc = 40;
+        else if(roznica < 24)
+            wilgotnosc = 30;
+        else if(roznica < 36)
+            wilgotnosc = 20;
+        else 
+            wilgotnosc = 10;
+        
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), wilgotnosc, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
         
         return pomiar;
     }

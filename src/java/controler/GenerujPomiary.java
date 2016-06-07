@@ -42,6 +42,7 @@ public class GenerujPomiary implements Serializable{
         Pomiar wiatr = null;
         Pomiar opady = null;
         Pomiar temperatura = null;
+        Pomiar wilgotnosc = null;
         try{
             rodzajChmur = db.generujChmury(getIdStacji());
         }
@@ -71,26 +72,19 @@ public class GenerujPomiary implements Serializable{
             e.printStackTrace();
         } 
         try{
-            temperatura = db.generujTemperature(getIdStacji(), rodzajChmur, aktualnyCzas, cisnienie, wiatr);
+            temperatura = db.generujTemperature(getIdStacji(), rodzajChmur, aktualnyCzas, cisnienie, wiatr, opady);
         }
         catch(Exception e){
             logger.warning("Nie udalo sie znalezc temperatury");
             e.printStackTrace();
         }               
-        
-        
-        
         try{
-            Calendar czas = Calendar.getInstance();
-            czas.setTime(dataPomiaru);
-            czas.add(Calendar.HOUR, godzinaPomiaru);
-            czas.add(Calendar.MINUTE, minutaPomiaru);
-            db.dodajPomiar(getWartosc(), czas.getTime(), czas.getTime());
+            wilgotnosc = db.generujWilgotnosc(getIdStacji(), rodzajChmur, aktualnyCzas, temperatura);
         }
         catch(Exception e){
-            logger.warning("Nie udalo sie dodac pomiaru");
+            logger.warning("Nie udalo sie znalezc wilgotnosci");
             e.printStackTrace();
-        }
+        }         
     }    
 
     public double getWartosc() {
