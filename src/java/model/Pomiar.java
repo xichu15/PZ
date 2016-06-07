@@ -69,6 +69,16 @@ public class Pomiar implements Serializable {
         this.czasPomiaru = czasPomiaru;
     }    
     
+    public Pomiar(Integer idPomiar, Double wartosc, Date dataPomiaru, Date czasPomiaru, Czujnik czujnik, Element element, Rodzajchmur rodzajChmur) {
+        this.idPomiar = idPomiar;
+        this.wartosc = wartosc;
+        this.dataPomiaru = dataPomiaru;
+        this.czasPomiaru = czasPomiaru;
+        this.idCzujnik = czujnik;
+        this.idElement = element;
+        this.idRodzajChmur = rodzajChmur;
+    }    
+    
     public Integer getIdPomiar() {
         return idPomiar;
     }

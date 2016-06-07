@@ -97,7 +97,7 @@ public class RysujWykresy implements Serializable{
         getWiatr().setShowPointLabels(true);
         getWiatr().getAxes().put(AxisType.X, new CategoryAxis("Data/czas"));
         yAxis = getWiatr().getAxis(AxisType.Y);
-        yAxis.setLabel("Predkość wiatru[m/s]");
+        yAxis.setLabel("Predkość wiatru[km/h]");
         yAxis.setMin(0);
         yAxis.setMax(30);
 

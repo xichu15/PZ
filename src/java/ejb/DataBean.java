@@ -6,7 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -59,8 +64,15 @@ public class DataBean {
     }
 
     public void DodajStacje(String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm) {
+        ArrayList<Czujnik> listaCzujnikow = new ArrayList<>();
         try{
-            Stacja dodawany = new Stacja(Integer.valueOf(1), nazwa, strefaCzasowa, przesuniecie, dlugoscGeograficzna, szerokoscGeograficzna, wysokoscNpm);
+             listaCzujnikow = dodawanieCzujnikow();
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        }
+        try{
+            Stacja dodawany = new Stacja(Integer.valueOf(1), nazwa, strefaCzasowa, przesuniecie, dlugoscGeograficzna, szerokoscGeograficzna, wysokoscNpm, listaCzujnikow);
             logger.info("Dodaje stacje: " + nazwa);
             em.persist(dodawany);
         }
@@ -68,7 +80,40 @@ public class DataBean {
             throw new EJBException(e.getMessage());
         }
     }
+    
+    public ArrayList<Czujnik> dodawanieCzujnikow(){
+        ArrayList<Czujnik> listaCzujnikow = new ArrayList<>();
+        listaCzujnikow.add(dodajZwrocCzujnik("Termometr"));
+        listaCzujnikow.add(dodajZwrocCzujnik("Barometr"));
+        listaCzujnikow.add(dodajZwrocCzujnik("Deszczomierz"));
+        listaCzujnikow.add(dodajZwrocCzujnik("Wiatromierz"));
+        listaCzujnikow.add(dodajZwrocCzujnik("Higrometr"));
+        return listaCzujnikow;
+    }
+    
+    public Czujnik dodajZwrocCzujnik(String nazwa) {
+        try{
+            Czujnik dodawany = new Czujnik(Integer.valueOf(1), nazwa);
+            logger.info("Dodaje czujnik: " + nazwa);
+            em.persist(dodawany);
+            return dodawany;
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }
 
+    public void dodajCzujnik(String nazwa) {
+        try{
+            Czujnik dodawany = new Czujnik(Integer.valueOf(1), nazwa);
+            logger.info("Dodaje czujnik: " + nazwa);
+            em.persist(dodawany);
+        }
+        catch(Exception e){
+            throw new EJBException(e.getMessage());
+        } 
+    }    
+    
     public void dodajRodzajChmur(String rodzajChmur) {
         try{
             Rodzajchmur dodawany = new Rodzajchmur(Integer.valueOf(1), rodzajChmur);
@@ -124,17 +169,6 @@ public class DataBean {
         } 
     }
     
-    public void dodajCzujnik(String nazwa) {
-        try{
-            Czujnik dodawany = new Czujnik(Integer.valueOf(1), nazwa);
-            logger.info("Dodaje czujnik: " + nazwa);
-            em.persist(dodawany);
-        }
-        catch(Exception e){
-            throw new EJBException(e.getMessage());
-        } 
-    }
-
     /**********Usuwanie obiektow**********/
     
     public void usunUzytkownika(Uzytkownik usuwany) {
@@ -624,6 +658,264 @@ public class DataBean {
             }
         return false;    
     }
+    
+    private Rodzajchmur znajdzChmury(String wybranaChmura) {
+        List<Rodzajchmur> chmury = null;
+        Rodzajchmur chmura = null;
+            try{
+                logger.info("Pobieram liste chmur");
+                chmury = (List<Rodzajchmur>) em.createNamedQuery("Rodzajchmur.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Rodzajchmur sprawdzana : chmury){
+            if(sprawdzana.getNazwa().equals(wybranaChmura)){
+                chmura = sprawdzana;
+            }
+        }
+        return chmura; 
+    }
+    
+    private Element znajdzElement(String nazwaElementu) {
+        List<Element> elementy = null;
+        Element element = null;
+            try{
+                logger.info("Pobieram liste elementow");
+                elementy = (List<Element>) em.createNamedQuery("Element.findAll").getResultList();
+            }
+            catch(Exception e){
+                throw new EJBException(e.getMessage());
+            }  
+        for(Element sprawdzana : elementy){
+            if(sprawdzana.getNazwa().equals(nazwaElementu)){
+                element = sprawdzana;
+            }
+        }
+        return element; 
+    }    
+    
 
-    /********** Szukanie po ID **********/
+    /********** Generowanie pomiarow **********/
+    
+    public Rodzajchmur generujChmury(Integer idStacji) {
+        Random losowanie = new Random();
+        
+        HashMap<String, Integer> szanse = new HashMap<>();
+        szanse.put("Cirrus", 10);
+        szanse.put("Cirrocumulus", 10);
+        szanse.put("Cirrostratus", 10);
+        szanse.put("Altocumulus", 10);
+        szanse.put("Altostratus", 10);
+        szanse.put("Nimbostratus", 10);
+        szanse.put("Stratocumulus", 10);
+        szanse.put("Stratus", 10);
+        szanse.put("Cumulus", 10);
+        szanse.put("Cumulonimbus", 10);
+
+        List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
+        for(Pomiar p : ostatniePomiary)
+            szanse.replace(p.getIdRodzajChmur().getNazwa(), szanse.get(p.getIdRodzajChmur().getNazwa())+1);
+
+        HashMap<String, Integer> przedzialy = new HashMap<>();
+        Integer dolnaGranica = 1;
+        
+        Set set = szanse.entrySet();
+        Iterator iterator = set.iterator();
+        while(iterator.hasNext()){
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            przedzialy.put((String)mentry.getKey(), dolnaGranica);
+            dolnaGranica += (Integer)mentry.getValue();
+        }
+        
+        dolnaGranica -= 1;
+        
+        Integer wylosowanaLiczba = losowanie.nextInt(dolnaGranica) + 1;
+        String wybranaChmura = "";
+        
+        set = przedzialy.entrySet();
+        iterator = set.iterator();
+        while(iterator.hasNext()){
+            Map.Entry mentry = (Map.Entry)iterator.next();
+            if(wylosowanaLiczba >= (Integer)mentry.getValue())
+                 wybranaChmura = (String)mentry.getKey();
+        }
+        
+        return znajdzChmury(wybranaChmura);
+    }
+
+    public Pomiar generujCisnienie(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas) {
+        Stacja stacja = em.find(Stacja.class, idStacji);
+        Czujnik czujnik = null;
+        for(Czujnik c : stacja.getCzujnikList()){
+            if(c.getNazwa().equals("Barometr"))
+                czujnik = c;
+        }
+        
+        Element element = znajdzElement("Cisnienie");
+        
+        
+        Random losowanie = new Random();
+        double cisnienie = losowanie.nextInt(31) + 1010;
+        
+        cisnienie -= 12.0 * stacja.getWysokoscNpm()/100;
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), cisnienie, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        
+        return pomiar;
+    }
+
+    public Pomiar generujWiatr(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar cisnienie) {
+        Stacja stacja = em.find(Stacja.class, idStacji);
+        Czujnik czujnik = null;
+        for(Czujnik c : stacja.getCzujnikList()){
+            if(c.getNazwa().equals("Wiatromierz"))
+                czujnik = c;
+        }
+        
+        Random losowanie = new Random();
+        double wiatr = losowanie.nextInt(11) + 9;       
+        
+        Element element = znajdzElement("Predkosc wiatru");
+        List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
+        
+        Integer ilosc = 0;
+        double suma = 0;
+        for(Pomiar p : ostatniePomiary){
+            if(p.getIdElement().getNazwa().equals("Cisnienie"))
+                ilosc += 1;
+                suma += p.getWartosc();
+        }
+        double srednieCisnienie = suma/ilosc;
+        if(cisnienie.getWartosc() > srednieCisnienie)
+            wiatr -= losowanie.nextInt(3) + 1;
+        else
+            wiatr += losowanie.nextInt(3) + 1;
+        
+        switch(rodzajChmur.getNazwa()){
+            case "Cirrus":
+                wiatr -= losowanie.nextInt(2) + 1;
+                break;
+            case "Cirrocumulus":
+                wiatr += losowanie.nextInt(4) + 1;
+                break;
+            case "Cirrostratus":
+                wiatr += losowanie.nextInt(3) - 1;
+                break;
+            case "Altocumulus":
+                wiatr += losowanie.nextInt(4) + 1;
+                break;
+            case "Altostratus":
+                wiatr += losowanie.nextInt(3) - 1;
+                break;
+            case "Nimbostratus":
+                wiatr -= losowanie.nextInt(3) + 1;
+                break;
+            case "Stratocumulus":
+                wiatr += losowanie.nextInt(2) - 1;
+                break;
+            case "Stratus":
+                wiatr -= losowanie.nextInt(3) + 1;
+                break;
+            case "Cumulus":
+                wiatr += losowanie.nextInt(5) - 2;
+                break;    
+            case "Cumulonimbus":
+                wiatr += losowanie.nextInt(7) + 2;
+                break;    
+        }
+
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), wiatr, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        
+        return pomiar;
+    }
+
+    public Pomiar generujOpady(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar cisnienie) {
+        Stacja stacja = em.find(Stacja.class, idStacji);
+        Czujnik czujnik = null;
+        for(Czujnik c : stacja.getCzujnikList()){
+            if(c.getNazwa().equals("Deszczomierz"))
+                czujnik = c;
+        }
+        
+        Random losowanie = new Random();
+        double wiatr = losowanie.nextInt(11) + 9;       
+        
+        Element element = znajdzElement("Predkosc wiatru");
+        List<Pomiar> ostatniePomiary = pobierzPomiary(idStacji);
+        
+        Integer ilosc = 0;
+        double suma = 0;
+        for(Pomiar p : ostatniePomiary){
+            if(p.getIdElement().getNazwa().equals("Cisnienie"))
+                ilosc += 1;
+                suma += p.getWartosc();
+        }
+        double srednieCisnienie = suma/ilosc;
+        if(cisnienie.getWartosc() > srednieCisnienie)
+            wiatr -= losowanie.nextInt(3) + 1;
+        else
+            wiatr += losowanie.nextInt(3) + 1;
+        
+        switch(rodzajChmur.getNazwa()){
+            case "Cirrus":
+                wiatr -= losowanie.nextInt(2) + 1;
+                break;
+            case "Cirrocumulus":
+                wiatr += losowanie.nextInt(4) + 1;
+                break;
+            case "Cirrostratus":
+                wiatr += losowanie.nextInt(3) - 1;
+                break;
+            case "Altocumulus":
+                wiatr += losowanie.nextInt(4) + 1;
+                break;
+            case "Altostratus":
+                wiatr += losowanie.nextInt(3) - 1;
+                break;
+            case "Nimbostratus":
+                wiatr -= losowanie.nextInt(3) + 1;
+                break;
+            case "Stratocumulus":
+                wiatr += losowanie.nextInt(2) - 1;
+                break;
+            case "Stratus":
+                wiatr -= losowanie.nextInt(3) + 1;
+                break;
+            case "Cumulus":
+                wiatr += losowanie.nextInt(5) - 2;
+                break;    
+            case "Cumulonimbus":
+                wiatr += losowanie.nextInt(7) + 2;
+                break;    
+        }
+
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), wiatr, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        
+        return pomiar;
+    }
+    
+    public Pomiar generujTemperature(Integer idStacji, Rodzajchmur rodzajChmur, Calendar aktualnyCzas, Pomiar cisnienie, Pomiar wiatr) {
+        Stacja stacja = em.find(Stacja.class, idStacji);
+        Czujnik czujnik = null;
+        for(Czujnik c : stacja.getCzujnikList()){
+            if(c.getNazwa().equals("Barometr"))
+                czujnik = c;
+        }
+        
+        Element element = znajdzElement("Cisnienie");
+        
+        
+        Random losowanie = new Random();
+        double cisnienie = losowanie.nextInt(31) + 1010;
+        
+        cisnienie -= 12.0 * stacja.getWysokoscNpm()/100;
+        Pomiar pomiar = new Pomiar(Integer.valueOf(1), cisnienie, aktualnyCzas.getTime(), aktualnyCzas.getTime(), czujnik, element, rodzajChmur);
+        
+        return pomiar;
+    }
+
+
+
+
+
 }

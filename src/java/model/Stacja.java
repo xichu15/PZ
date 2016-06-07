@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -73,7 +74,7 @@ public class Stacja implements Serializable {
         this.idStacja = idStacja;
     }
 
-    public Stacja(Integer idStacja, String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm) {
+    public Stacja(Integer idStacja, String nazwa, String strefaCzasowa, int przesuniecie, double dlugoscGeograficzna, double szerokoscGeograficzna, int wysokoscNpm, ArrayList<Czujnik> listaCzujnikow) {
         this.idStacja = idStacja;
         this.nazwa = nazwa;
         this.strefaCzasowa = strefaCzasowa;
@@ -81,6 +82,7 @@ public class Stacja implements Serializable {
         this.dlugoscGeograficzna = dlugoscGeograficzna;
         this.szerokoscGeograficzna = szerokoscGeograficzna;
         this.wysokoscNpm = wysokoscNpm;
+        this.czujnikList.addAll(listaCzujnikow);
     }
 
     public Integer getIdStacja() {
